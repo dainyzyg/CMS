@@ -1,0 +1,41 @@
+{
+  "name": "CMS",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "wstart": "supervisor ./bin/www",
+    "build": "set NODE_ENV=production&&webpack --progress --profile --config webpack.production.config.js",
+    "dev": "start cmd /k webpack --progress --watch  --config webpack.development.config.js&&set NODE_ENV=development&&npm run wstart",
+    "online": "start cmd /k npm run deploy&&set NODE_ENV=production&&npm start",
+    "deploy": "set NODE_ENV=production&&webpack --progress --profile --config webpack.production.config.js"
+  },
+  "dependencies": {
+    "antd": "^0.12.7",
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "ejs": "~2.3.3",
+    "express": "~4.13.1",
+    "mongodb": "^2.1.7",
+    "morgan": "~1.6.1",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "serve-favicon": "~2.3.0",
+    "supervisor": "^0.9.1",
+    "webpack": "^1.12.13",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.5.2",
+    "babel-loader": "^6.2.3",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-plugin-antd": "^0.2.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-typecheck": "^3.8.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "style-loader": "^0.13.0"
+  }
+}
