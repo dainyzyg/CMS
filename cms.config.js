@@ -3,9 +3,9 @@
  */
 var config = {
     mongodb: {
-        url: 'mongodb://localhost:27017/test',
-        userName: 'test1',
-        password: 'test1'
+        url: 'mongodb://11.11.185.36:27017/cms',
+        userName: 'cms',
+        password: 'cmspassword'
     }
 }
 
