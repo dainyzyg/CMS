@@ -105,14 +105,15 @@ var config = {
         new webpack.NoErrorsPlugin(),
     ],
     devtool: 'cheap-module-eval-source-map',
-    UglifyJsPluginConfig: {
-        output: {
-            ascii_only: true
-        },
-        compress: {
-            warnings: false
-        }
-    }
+    watch: true
+    //UglifyJsPluginConfig: {
+    //    output: {
+    //        ascii_only: true
+    //    },
+    //    compress: {
+    //        warnings: false
+    //    }
+    //}
 }
 deps.forEach(function (dep) {
     var depPath = path.resolve(node_modules, dep.path)
