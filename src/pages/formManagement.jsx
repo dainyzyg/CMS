@@ -1,6 +1,5 @@
-﻿import ReactDOM from 'react-dom';
-import React from 'react';
-import { Table, Icon } from 'antd';
+﻿import React from 'react';
+import { Button, Table, Icon } from 'antd';
 
 const columns = [{
     title: '表单ID',
@@ -27,11 +26,11 @@ const columns = [{
         render() {
             return (
                 <span>
-        <a href="#">添加</a>
-        <span className="ant-divider"></span>
-        <a href="#">删除</a>
-        <span className="ant-divider"></span>
-            </span>
+                    <a href="#">添加</a>
+                         <span className="ant-divider"></span>
+                    <a href="#">删除</a>
+                         <span className="ant-divider"></span>
+                </span>
             );
         }
     }
@@ -45,7 +44,7 @@ for (let i = 1; i <= 30; i++) {
         formName: `信息化工作平台表单`,
         formDiscription: `工作表单${i}号`,
         formCreatetime: `20160308`,
-        formLastmodifytime: `20160308`,
+        formLastmodifytime: `20160308`
     });
 }
 
@@ -64,3 +63,24 @@ const pagination = {
 ReactDOM.render(<Table columns={columns} dataSource={data} pagination={pagination} bordered/>
     , document.getElementById('react-content')
 );
+/*ReactDOM.render(
+ <div>
+ <Row type="flex" justify="center" align="top">
+ <Col span="">
+ <h1>表单配置界面</h1>
+ </Col>
+ </Row>
+ <Row>
+ <Col span="8">
+ <Button type="primary" size="large">新增编辑器</Button>
+ </Col>
+ <Col span="8" offset="8">
+ <Input id="largeInput" size="large" placeholder="请输入查询内容"/>
+ <Button type="primary" shape="circle" size="large">
+ <Icon type="search"/>
+ </Button>
+ </Col>
+ </Row>
+ </div>,
+ document.getElementById('react-content')
+ )*/
