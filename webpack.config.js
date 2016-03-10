@@ -7,7 +7,7 @@ var webpack = require('webpack')
 var node_modules = path.resolve(__dirname, 'node_modules')
 var entryPath = path.resolve(__dirname, './src/pages')
 var entry = {}
-console.log(entryPath)
+// console.log(entryPath)
 var fileList = getFileList(entryPath)
 fileList.forEach((item, index, array)=> {
     entry[item.relative] = item.path
