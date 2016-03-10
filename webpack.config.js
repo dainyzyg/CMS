@@ -28,7 +28,7 @@ var config = {
     output: {
         //chunkFilename: "[chunkhash].bundle.js",
         path: path.resolve(__dirname, 'public/javascripts'),
-        filename: '[name].js'
+        filename: '[chunkhash].[name].js'
     },
     module: {
         loaders: [
