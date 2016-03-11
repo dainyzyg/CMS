@@ -13,14 +13,15 @@ exports.run = function (req, res) {
     //db.eval(function (){print("xxxxxxxxxxxxxxxxxxxxxxxxxx"); return db.tree.find().toArray();}, [], function (err, result, a, b) {
     //    res.send(JSON.stringify(result));
     //});
-    var mongoScript = fs.readFileSync(path.resolve(process.cwd(), './src/lib/mongo/test.mongo'))
+    var mongoScript = fs.readFileSync(path.resolve(process.cwd(), './src/lib/mongo/getFormList.mongo'))
+    console.log(mongoScript)
     //res.send(mongoScript.toString())
     db.command({
         eval: mongoScript.toString(),
-        args: ['bbbbbbbb'],
+        args: [3,3],
         nolock: true
     }).then(function (result) {
-        res.send(JSON.stringify(result.retval))
+        res.send(JSON.stringify(result))
     })
     //var treeCol = db.collection('tree');
     //treeCol.find({}).toArray(function (err, docs) {
