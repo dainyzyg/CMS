@@ -1,6 +1,53 @@
 ﻿import ReactDOM from 'react-dom';
 import React from 'react';
 import { Button, Table, Icon, Col, Row, Input } from 'antd';
+import classNames from 'classnames';
+
+const InputGroup = Input.Group;
+const SearchInput = React.createClass({
+    getInitialState() {
+        return {
+            value: '',
+            focus: false
+        };
+    },
+    handleInputChange(e) {
+        this.setState({
+            value: e.target.value,
+        });
+    },
+    handleFocusBlur(e) {
+        this.setState({
+            focus: e.target === document.activeElement,
+        });
+    },
+    handleSearch() {
+        if (this.props.onSearch) {
+            this.props.onSearch();
+        }
+    },
+    render() {
+        const btnCls = classNames({
+            'ant-search-btn': true,
+            'ant-search-btn-noempty': !!this.state.value.trim(),
+        });
+        const searchCls = classNames({
+            'ant-search-input': true,
+            'ant-search-input-focus': this.state.focus,
+        });
+        return (
+            <InputGroup className={searchCls} style={this.props.style}>
+                <Input {...this.props} value={this.state.value} onChange={this.handleInputChange}
+                                       onFocus={this.handleFocusBlur} onBlur={this.handleFocusBlur} />
+                <div className="ant-input-group-wrap">
+                    <Button className={btnCls} onClick={this.handleSearch}>
+                        <Icon type="search" />
+                    </Button>
+                </div>
+            </InputGroup>
+        );
+    }
+});
 
 const columns = [{
     title: '表单ID',
@@ -61,27 +108,22 @@ const pagination = {
     }
 };
 
-ReactDOM.render(<Table columns={columns} dataSource={data} pagination={pagination} bordered/>
-    , document.getElementById('react-content')
+ReactDOM.render(
+    <div style={{padding:50}}>
+        <Row type="flex" justify="center" align="top">
+            <Col span="">
+                <h1>表单配置</h1>
+            </Col>
+        </Row>
+        <Row style={{marginBottom:5}}>
+            <Col span="8">
+                <Button type="primary">新增编辑器</Button>
+            </Col>
+            <Col span="4" offset="12">
+                <SearchInput placeholder="请输入查询内容" style={{ width: 200 }} />
+            </Col>
+        </Row>
+        <Table columns={columns} dataSource={data} pagination={pagination} bordered/>
+    </div>,
+    document.getElementById('react-content')
 );
-/*ReactDOM.render(
- <div>
- <Row type="flex" justify="center" align="top">
- <Col span="">
- <h1>表单配置</h1>
- </Col>
- </Row>
- <Row>
- <Col span="8">
- <Button type="primary" size="large">新增编辑器</Button>
- </Col>
- <Col span="8" offset="8">
- <Input id="largeInput" size="large" placeholder="请输入查询内容"/>
- <Button type="primary" shape="circle" size="large">
- <Icon type="search"/>
- </Button>
- </Col>
- </Row>
- </div>,
- document.getElementById('react-content')
- );*/
