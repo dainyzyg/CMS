@@ -1,6 +1,6 @@
 function getFormData(index,limit) {
 
     //  db.form.find();
-    return  db.form.find({formName:"图书"}).toArray()
+    return  db.form.find().skip(index).limit(limit).toArray()
 
 }
