@@ -38,10 +38,11 @@ const SearchInput = React.createClass({
         return (
             <InputGroup className={searchCls} style={this.props.style}>
                 <Input {...this.props} value={this.state.value} onChange={this.handleInputChange}
-                                       onFocus={this.handleFocusBlur} onBlur={this.handleFocusBlur} />
+                                       onFocus={this.handleFocusBlur} onBlur={this.handleFocusBlur}/>
+
                 <div className="ant-input-group-wrap">
                     <Button className={btnCls} onClick={this.handleSearch}>
-                        <Icon type="search" />
+                        <Icon type="search"/>
                     </Button>
                 </div>
             </InputGroup>
@@ -67,22 +68,20 @@ const columns = [{
 }, {
     title: '最后修改时间',
     dataIndex: 'formLastmodifytime'
-},
-    {
-        title: '操作',
-        dataIndex: 'formOperation',
-        render() {
-            return (
-                <span>
- <a href="#">添加</a>
- <span className="ant-divider"></span>
- <a href="#">删除</a>
- <span className="ant-divider"></span>
- </span>
-            );
-        }
+}, {
+    title: '操作',
+    dataIndex: 'formOperation',
+    render() {
+        return (
+            <span>
+                 <a href="#">添加</a>
+                 <span className="ant-divider"></span>
+                 <a href="#">删除</a>
+                 <span className="ant-divider"></span>
+             </span>
+        );
     }
-];
+}];
 
 const data = [];
 for (let i = 1; i <= 30; i++) {
@@ -97,6 +96,8 @@ for (let i = 1; i <= 30; i++) {
 }
 
 const pagination = {
+    pageSize: 10,
+    pageSizeOptions: ['10', '20', '30', '40'],
     total: data.length,
     current: 1,
     showSizeChanger: true,
@@ -120,10 +121,10 @@ ReactDOM.render(
                 <Button type="primary">新增编辑器</Button>
             </Col>
             <Col span="4" offset="12">
-                <SearchInput placeholder="请输入查询内容" style={{ width: 200 }} />
+                <SearchInput placeholder="请输入查询内容" style={{ width: 200 }}/>
             </Col>
         </Row>
-        <Table columns={columns} dataSource={data} pagination={pagination} bordered/>
+        <Table columns={columns} dataSource={data} pagination={pagination} bordered useFixedHeader/>
     </div>,
     document.getElementById('react-content')
 );
