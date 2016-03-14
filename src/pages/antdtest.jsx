@@ -35,7 +35,7 @@ const columns = [{
 }];
 const data = [{
     key: '1',
-    name: '胡彦斌',
+    name: '胡彦斌1',
     age: 32,
     address: '西湖区湖底公园1号'
 }, {
