@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, Table, Icon, Col, Row, Input } from 'antd';
 import classNames from 'classnames';
 
+//定义搜索框组件
 const InputGroup = Input.Group;
 const SearchInput = React.createClass({
     getInitialState() {
@@ -49,6 +50,7 @@ const SearchInput = React.createClass({
         );
     }
 });
+//定义表单组件
 const Tablecomponent = React.createClass({
     getInitialState() {
         return {

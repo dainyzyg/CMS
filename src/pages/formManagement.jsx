@@ -53,6 +53,7 @@ const SearchInput = React.createClass({
 const columns = [{
     title: '表单ID',
     dataIndex: 'formId',
+    width:120,
     render(text) {
         return <a href="#">{text}</a>;
     }
@@ -64,13 +65,16 @@ const columns = [{
     dataIndex: 'formDiscription'
 }, {
     title: '创建时间',
-    dataIndex: 'formCreatetime'
+    dataIndex: 'formCreatetime',
+    width:100
 }, {
     title: '最后修改时间',
-    dataIndex: 'formLastmodifytime'
+    dataIndex: 'formLastmodifytime',
+    width:100
 }, {
     title: '操作',
     dataIndex: 'formOperation',
+    width:100,
     render() {
         return (
             <span>
@@ -96,15 +100,11 @@ for (let i = 1; i <= 30; i++) {
 }
 
 const pagination = {
-    pageSize: 10,
-    pageSizeOptions: ['10', '20', '30', '40'],
+    pageSize: 8,
     total: data.length,
     current: 1,
-    showSizeChanger: true,
-    onShowSizeChange(current, pageSize) {
-        console.log('Current: ', current, '; PageSize: ', pageSize);
-    },
-    onChange(current) {
+    onChange(current)
+    {
         console.log('Current: ', current);
     }
 };
@@ -120,11 +120,11 @@ ReactDOM.render(
             <Col span="8">
                 <Button type="primary">新增编辑器</Button>
             </Col>
-            <Col span="4" offset="12">
+            <Col span="1" offset="12">
                 <SearchInput placeholder="请输入查询内容" style={{ width: 200 }}/>
             </Col>
         </Row>
-        <Table columns={columns} dataSource={data} pagination={pagination} bordered useFixedHeader/>
+        <Table columns={columns} dataSource={data} pagination={pagination} bordered/>
     </div>,
     document.getElementById('react-content')
 );

@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { Table, Modal } from 'antd';
-import Tablecomponent from './../lib/components/tableComponent.jsx'
+import { Table, Modal, Alert } from 'antd';
+import Tablecomponent from './../lib/components/tableComponent.jsx';
 
 //为删除确认定义方法
 const confirm = Modal.confirm;
@@ -44,7 +44,7 @@ const columns = [{
     render() {
         return (
             <span>
-                 <a href="#">添加</a>
+                 <a href="#" onClick=>添加</a>
                  <span className="ant-divider"></span>
                  <a href="#" onClick={showConfirm}>删除</a>
                  <span className="ant-divider"></span>
