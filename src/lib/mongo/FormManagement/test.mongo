@@ -1,6 +1,0 @@
-function a(a) {
-    print(a)
-    print(a)
-    return db.tree.find().toArray()
-
-}
