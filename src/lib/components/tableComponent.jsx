@@ -49,7 +49,7 @@ const SearchInput = React.createClass({
         );
     }
 });
-const Fmtable = React.createClass({
+const Tablecomponent = React.createClass({
     getInitialState() {
         return {
             data: [],
@@ -128,4 +128,4 @@ const Fmtable = React.createClass({
         );
     }
 });
-export default Fmtable;
+export default Tablecomponent;
