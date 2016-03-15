@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { Table } from 'antd';
-import Fmtable from './../lib/components/tableComponent.jsx'
+import Tablecomponent from './../lib/components/tableComponent.jsx'
 const columns = [{
     title: '表单ID',
     dataIndex: 'formId',
@@ -39,4 +39,4 @@ const columns = [{
     }
 }];
 
-ReactDOM.render(<Fmtable columns={columns} />, document.getElementById('react-content'));
+ReactDOM.render(<Tablecomponent columns={columns} />, document.getElementById('react-content'));
