@@ -1,0 +1,6 @@
+function saveForm(data) {
+   db.form.update({_id:data._id},(data),true)
+    return("成功")
+    }
+
+
