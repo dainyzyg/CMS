@@ -87,7 +87,7 @@ var config = {
             )
         },
         new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.CommonsChunkPlugin('common', /* filename= */"common.js"),
+        new webpack.optimize.CommonsChunkPlugin('common', /* filename= */"[chunkhash].common.js"),
         new webpack.optimize.UglifyJsPlugin({
             output: {
                 ascii_only: true
