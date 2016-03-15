@@ -36,7 +36,7 @@ router.all('/api/*', function(req, res) {
 })
 router.all('/pages/*', function(req, res) {
     var urlObject = url.parse(req.url)
-    var name = path.basename(req.url)
+    var name = path.basename(urlObject.pathname)
     var filesMapping = require(path.resolve(process.cwd(), 'public/dist/filesMapping.json'))
     if (filesMapping[name]) {
         res.render('antd', {
