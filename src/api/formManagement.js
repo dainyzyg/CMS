@@ -18,13 +18,9 @@ exports.run = function(req, res) {
 }
 
 function save(req, res) {
-    var args = {
-        projectID: req.body.projectID,
-        year: req.body.year,
-    }
-    mongoDBHelper.runMongo('test', args,
-        (result) => {
-            res.send(JSON.stringify(result))
+    mongoDBHelper.runMongo('formManagement/saveForm', JSON.parse(req.body.data),
+        (err,result) => {
+            res.send(JSON.stringify({err,result}))
         })
 }
 function getList(req, res) {
@@ -33,7 +29,7 @@ function getList(req, res) {
         limit: parseInt(req.body.limit),
     }
     mongoDBHelper.runMongo('formManagement/getFormList', args,
-        (result) => {
+        (err,result) => {
             res.send(JSON.stringify(result))
         })
 }
