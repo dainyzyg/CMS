@@ -9,6 +9,9 @@ exports.run = function(req, res) {
         case 'save':
             save(req, res)
             break
+        case 'getList':
+            getList(req, res)
+            break
         default:
             break
     }
@@ -20,6 +23,16 @@ function save(req, res) {
         year: req.body.year,
     }
     mongoDBHelper.runMongo('test', args,
+        (result) => {
+            res.send(JSON.stringify(result))
+        })
+}
+function getList(req, res) {
+    var args = {
+        index: parseInt(req.body.index),
+        limit: parseInt(req.body.limit),
+    }
+    mongoDBHelper.runMongo('formManagement/getFormList', args,
         (result) => {
             res.send(JSON.stringify(result))
         })
