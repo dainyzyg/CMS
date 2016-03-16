@@ -1,6 +1,6 @@
 ﻿import ReactDOM from 'react-dom';
 import React from 'react';
-import { Table, Modal, Popconfirm } from 'antd';
+import { Table, Popconfirm } from 'antd';
 import Tablecomponent from './../lib/components/tableComponent.jsx';
 
 //为新增编辑器onClick事件定义方法
@@ -39,7 +39,7 @@ const columns = [{
             <span>
                  <a href="#" onClick={editContent}>编辑</a>
                  <span className="ant-divider"></span>
-                 <Popconfirm placement="left" title="确定要删除这个任务吗？">
+                 <Popconfirm placement="left" title="确定要删除这条数据吗？">
                      <a href="#">删除</a>
                  </Popconfirm>
                  <span className="ant-divider"></span>
