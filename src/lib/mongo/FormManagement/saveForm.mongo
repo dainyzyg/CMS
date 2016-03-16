@@ -1,6 +1,8 @@
-function saveForm(data) {
-   db.form.update({_id:data._id},(data),true)
-    return("成功")
-    }
+function getFormData(args) {
 
+    if (!args._id) {
+        db.form.insert(args)
+    }
+    db.form.save(args)
+}
 
