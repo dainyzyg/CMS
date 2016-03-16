@@ -3,18 +3,6 @@ import React from 'react';
 import { Table, Modal, Popconfirm } from 'antd';
 import Tablecomponent from './../lib/components/tableComponent.jsx';
 
-//为删除确认定义方法
-//const confirm = Modal.confirm;
-//function deleteConfirm() {
-//    confirm({
-//        title: '确认需要删除这项内容？',
-//        onOk() {
-//            console.log('确定');
-//        },
-//        onCancel() {
-//        }
-//    });
-//}
 //为新增编辑器onClick事件定义方法
 function addEditor() {
     window.location.href = '../dragform/dragform.html'
