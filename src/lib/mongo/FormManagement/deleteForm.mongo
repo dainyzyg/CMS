@@ -1,0 +1,3 @@
+function getFormData(args) {
+    db.form.remove({_id:(args._id)})
+}
