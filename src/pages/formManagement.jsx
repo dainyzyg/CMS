@@ -15,7 +15,12 @@ function showConfirm() {
         }
     });
 }
+//为新增编辑器onClick事件定义方法
 function addEditor(){
+    window.location.href='../dragform/dragform.html'
+}
+//为编辑链接onClick事件定义方法
+function editContent(){
     window.location.href='../dragform/dragform.html'
 }
 //定义表头
@@ -28,25 +33,25 @@ const columns = [{
     dataIndex: 'formName'
 }, {
     title: '表单描述',
-    dataIndex: 'formDiscription'
+    dataIndex: 'discription'
 }, {
     title: '创建时间',
-    dataIndex: 'formCreatetime',
-    width: 100
+    dataIndex: 'createTime',
+    width:100
 }, {
     title: '最后修改时间',
-    dataIndex: 'formLastmodifytime',
-    width: 100
+    dataIndex: 'lastmodifyTime',
+    width:100
 }, {
     title: '操作',
     dataIndex: 'formOperation',
     width: 100,
-    render() {
+    render(text, record) {
         return (
             <span>
-                 <a href="#">编辑</a>
+                 <a href="#" onClick={editContent}>编辑</a>
                  <span className="ant-divider"></span>
-                 <a href="#" onClick={showConfirm}>删除</a>
+                 <a href="#" onClick={showConfirm}>删除{record.id}</a>
                  <span className="ant-divider"></span>
              </span>
         );
