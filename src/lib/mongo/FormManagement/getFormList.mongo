@@ -1,6 +1,9 @@
-function getFormData(index,limit) {
+function getFormData(args) {
 
     //  db.form.find();
-    return  db.form.find().skip(index).limit(limit).toArray()
+    var data={}
+    data.data=db.form.find().skip(args.index).limit(args.limit).toArray()
+    data.totalCount=db.form.count()
+    return  data
 
 }

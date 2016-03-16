@@ -13,14 +13,14 @@ exports.run = function (req, res) {
     //db.eval(function (){print("xxxxxxxxxxxxxxxxxxxxxxxxxx"); return db.tree.find().toArray();}, [], function (err, result, a, b) {
     //    res.send(JSON.stringify(result));
     //});
-    var mongoScript = fs.readFileSync(path.resolve(process.cwd(), './src/lib/mongo/saveForm.mongo'))
+    var mongoScript = fs.readFileSync(path.resolve(process.cwd(), './src/lib/mongo/FormManagement/saveForm.mongo'))
     console.log(mongoScript)
     //res.send(mongoScript.toString())
     var mydate = new Date();
     var dates = ( mydate.getFullYear() + "/" + (mydate.getMonth()+1)+ "/" + mydate.getDate() + "/" );
     var data = {
-       _id: "56e2672a38e2124a0c85c27f",
-        formName: "东方东方网IP地址申请6666",
+
+        formName: "东方东方网IP地址申请无ｉｄ-1",
         discription: "广域网IP地址申请测试id",
         createTime: dates,
         creater: "luzg",
