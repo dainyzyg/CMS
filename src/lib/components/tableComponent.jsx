@@ -109,7 +109,7 @@ const Tablecomponent = React.createClass({
     componentDidMount() {
         this.fetch();
     },
-    render() {
+        render() {
         return (
             <div style={{padding:50}}>
                 <Row type="flex" justify="center" align="top">
@@ -119,7 +119,7 @@ const Tablecomponent = React.createClass({
                 </Row>
                 <Row style={{marginBottom:5}}>
                     <Col span="8">
-                        <Button type="primary">新增编辑器</Button>
+                        <Button type="primary" onClick={this.props.onAdd}>新增编辑器</Button>
                     </Col>
                     <Col span="4" offset="12">
                         <SearchInput placeholder="请输入查询内容" style={{ width: 200 }}/>
