@@ -2,7 +2,7 @@ function getFormData(args) {
 
     //  db.form.find();
     var data={}
-    data.data=db.form.find().skip(args.index).limit(args.limit).toArray()
+    data.data=db.form.find().skip(args.index).limit(args.limit).sort({createTime:1}).toArray()
     data.totalCount=db.form.count()
     return  data
 
