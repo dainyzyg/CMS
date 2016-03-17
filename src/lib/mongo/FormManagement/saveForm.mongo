@@ -13,6 +13,7 @@ function getFormData(args) {
             lastmodifyTime: dates
 
         })
+    }
     else
         db.form.update({
             formName: args.formName,
@@ -21,7 +22,7 @@ function getFormData(args) {
             creater: args.creater,
             lastmodifyTime: dates
         })
-    }
+
 }
 
 
