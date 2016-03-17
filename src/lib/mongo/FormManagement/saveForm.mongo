@@ -4,25 +4,14 @@ mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds())
 function getFormData(args) {
 
     if (!args._id) {
-
-        db.form.insert({
-            formName: args.formName,
-            discription: args.discription,
-            createTime: dates,
-            creater: args.creater,
-            lastmodifyTime: dates
-
-        })
+        args.createTime = dates;
+        args.lastmodifyTime = dates;
+        db.form.insert(args)
     }
-    else
-        db.form.update({
-            formName: args.formName,
-            discription: args.discription,
-
-            creater: args.creater,
-            lastmodifyTime: dates
-        })
-
+    else {
+        args.lastmodifyTime = dates;
+        db.form.update(args)
+    }
 }
 
 
