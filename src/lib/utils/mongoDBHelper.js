@@ -9,8 +9,8 @@ var mongoDBHelper = {
             eval: mongoScript.toString(),
             args: [args],
             nolock: true
-        }).then((result) => {
-            callback(result)
+        },(err,result) => {
+            callback(err,result)
         })
     }
 }
