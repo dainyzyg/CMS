@@ -59,6 +59,7 @@ const Tablecomponent = React.createClass({
     },
     handleTableChange(pagination, filters, sorter) {
         const pager = this.state.pagination;
+        this.currentPage=pagination.current;
         pager.current = pagination.current;
         console.log(pagination);
         this.setState({
@@ -110,6 +111,16 @@ const Tablecomponent = React.createClass({
         this.fetch();
     },
         render() {
+            //var columns=this.props.columns;
+            for(var column of this.props.columns){
+                if(column.render)
+                {
+                    column.render=column.render.bind(this)
+                }
+
+            }
+            //this.props.columns[5].render=this.props.columns[5].render.bind(this)
+
         return (
             <div style={{padding:50}}>
                 <Row type="flex" justify="center" align="top">
