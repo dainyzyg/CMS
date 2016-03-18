@@ -9,7 +9,7 @@ function addEditor() {
 }
 //为编辑链接onClick事件定义方法
 function editContent() {
-    window.location.href = '../dragform/dragform.html'
+    window.location.href = '../dragform/dragform.html?id='+this.record._id
 }
 //分页信息
 const pagination={}
@@ -43,7 +43,7 @@ const columns = [{
         }
         return (
             <span>
-                 <a href="#" onClick={editContent}>编辑</a>
+                 <a href="#" onClick={editContent.bind(bindObject)}>编辑</a>
                  <span className="ant-divider"></span>
                  <Popconfirm placement="left" title="确定要删除这个流程吗？" onConfirm={deleteConfirm.bind(bindObject)}
                              onCancel={deleteCancel}>
