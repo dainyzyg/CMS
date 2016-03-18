@@ -1,0 +1,17 @@
+function findFormData(args) {
+    if (args.formName) {
+        var result = db.form.find({
+            formName: {
+                $regex: args.formName,
+                $options: "$i"
+            }
+        }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({createTime: 1})
+    }
+    else {
+        var result = db.form.find().skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({createTime: 1})
+    }
+    var data = {}
+    data.data = result.toArray()
+    data.totalCount = result.count()
+    return data
+}
