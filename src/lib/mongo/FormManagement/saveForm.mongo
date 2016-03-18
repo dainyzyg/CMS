@@ -1,8 +1,18 @@
+var mydate = new Date();
+var dates = ( mydate.getFullYear() + "/" + (mydate.getMonth()+1)+ "/" + mydate.getDate() + " " +
+mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds())
 function getFormData(args) {
 
     if (!args._id) {
+        args.createTime = dates;
+        args.lastmodifyTime = dates;
         db.form.insert(args)
     }
-    db.form.save(args)
+    else {
+        args.lastmodifyTime = dates;
+        db.form.update(args)
+    }
 }
+
+
 
