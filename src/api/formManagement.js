@@ -32,7 +32,9 @@ function getList(req, res) {
     var args = {
         index: parseInt(req.body.index),
         limit: parseInt(req.body.limit),
+        findField: parseInt(req.body.findField)
     }
+    console.log(args)
     mongoDBHelper.runMongo('formManagement/getFormList', args,
         (err, result) => {
             console.log('result', JSON.stringify(result)),
