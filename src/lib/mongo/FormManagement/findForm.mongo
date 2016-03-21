@@ -1,8 +1,8 @@
 function findFormData(args) {
-    if (args.formName) {
+    if (args.findField) {
         var result = db.form.find({
             formName: {
-                $regex: args.formName,
+                $regex: args.findField,
                 $options: "$i"
             }
         }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({createTime: 1})
