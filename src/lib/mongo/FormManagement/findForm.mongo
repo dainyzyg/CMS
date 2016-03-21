@@ -1,4 +1,4 @@
-function getList(args) {
+function findFormData(args) {
     if (args.findField) {
         var result = db.form.find({
             formName: {
@@ -12,6 +12,6 @@ function getList(args) {
     }
     var data = {}
     data.data = result.toArray()
-  data.totalCount = result.count()
+    data.totalCount = result.count()
     return data
 }

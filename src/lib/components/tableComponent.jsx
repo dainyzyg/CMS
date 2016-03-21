@@ -23,8 +23,9 @@ const SearchInput = React.createClass({
     },
     handleSearch() {
         if (this.props.onSearch) {
-            this.props.onSearch();
+            this.props.onSearch(this.state.value);
         }
+        //console.log('value',this.state.value);
     },
     render() {
         const btnCls = classNames({
@@ -57,42 +58,55 @@ const Tablecomponent = React.createClass({
             loading: false,
         };
     },
+    params:{
+        limit:10,
+        index:1,
+        sortField:'',
+        sortOrder:'',
+        findField:''
+    },
     handleTableChange(pagination, filters, sorter) {
         const pager = this.state.pagination;
+        this.currentPage=pagination.current;
+        this.params.limit=pagination.pageSize;
+        this.params.index= (pagination.current - 1) * pagination.pageSize + 1,
         pager.current = pagination.current;
-        console.log(pagination);
         this.setState({
             pagination: pager
         });
-        const params = {
-            limit: pagination.pageSize,
-            index: (pagination.current - 1) * pagination.pageSize + 1,
-            sortField: sorter.field,
-            sortOrder: sorter.order
-        };
+        //const params = {
+        //    limit: pagination.pageSize,
+        //    index: (pagination.current - 1) * pagination.pageSize + 1,
+        //    sortField: sorter.field,
+        //    sortOrder: sorter.order
+        //};
         for (let key in filters) {
             if (filters.hasOwnProperty(key)) {
                 params[key] = filters[key];
             }
         }
-        this.fetch(params);
+        this.fetch();
         console.log('请求参数：', JSON.stringify(params));
     },
+    onSearch(e){
+        console.log('search',e);
+        this.params.findField=e;
+        this.fetch();
+    },
 //fetch（）获取数据
-    fetch(params = {
-        limit: 10,
-        index: 1
-    })
+    fetch()
     {
-        console.log('请求参数：', JSON.stringify(params));
         this.setState({loading: true});
         reqwest({
             url: '../api/formManagement',
             method: 'post',
             data: {
                 action: 'getList',
-                index: params.index,
-                limit: params.limit
+                index: this.params.index,
+                limit: this.params.limit,
+                sortField:this.params.sortField,
+                sortOrder:this.params.sortOrder,
+                findField:this.params.findField
             },
             type: 'json',
             success: (result) => {
@@ -110,6 +124,16 @@ const Tablecomponent = React.createClass({
         this.fetch();
     },
         render() {
+            //var columns=this.props.columns;
+            for(var column of this.props.columns){
+                if(column.render)
+                {
+                    column.render=column.render.bind(this)
+                }
+
+            }
+            //this.props.columns[5].render=this.props.columns[5].render.bind(this)
+
         return (
             <div style={{padding:50}}>
                 <Row type="flex" justify="center" align="top">
@@ -122,7 +146,7 @@ const Tablecomponent = React.createClass({
                         <Button type="primary" onClick={this.props.onAdd}>新增编辑器</Button>
                     </Col>
                     <Col span="4" offset="12">
-                        <SearchInput placeholder="请输入查询内容" style={{ width: 200 }}/>
+                        <SearchInput placeholder="请输入查询内容" onSearch={this.onSearch} style={{ width: 200 }}/>
                     </Col>
                 </Row>
                 <Table columns={this.props.columns}

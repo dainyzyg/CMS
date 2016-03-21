@@ -16,7 +16,7 @@ exports.run = function (req, res) {
     var mongoScript = fs.readFileSync(path.resolve(process.cwd(), './src/lib/mongo/FormManagement/saveForm.mongo'))
     console.log(mongoScript)
     //res.send(mongoScript.toString())
-    var mydate = new Date();
+  /*  var mydate = new Date();
     var dates = ( mydate.getFullYear() + "/" + (mydate.getMonth()+1)+ "/" + mydate.getDate() + "/" );
     var data = {
 
@@ -25,7 +25,7 @@ exports.run = function (req, res) {
         createTime: dates,
         creater: "luzg",
         lastmodifyTime: "2016/03/08"
-    }
+    }8*/
     db.command({
         eval: mongoScript.toString(),
         args: [data],
