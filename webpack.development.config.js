@@ -8,7 +8,7 @@ var webpack = require('webpack')
 var node_modules = path.resolve(__dirname, 'node_modules')
 var entryPath = path.resolve(__dirname, './src/pages')
 var entry = {
-    //reactchunk: ['react', 'react-dom']
+    router: path.resolve(__dirname, './src/router.jsx')
 }
 deleteFilesByDir(path.resolve(__dirname, 'public/dist'))
 var fileList = getFileList(entryPath)
@@ -38,7 +38,7 @@ var config = {
         //chunkFilename: "[chunkhash].bundle.js",
         path: path.resolve(__dirname, 'public/dist'),
         filename: '[chunkhash].[name].js',
-        //chunkFilename: "[id].[hash].bundle.js"
+        publicPath: '/dist/'
     },
     node: {
         child_process: 'empty',
