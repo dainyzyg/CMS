@@ -34,6 +34,19 @@ router.all('/api/*', function(req, res) {
     var context = require('../src' + urlObject.pathname)
     context.run(req, res)
 })
+router.all('/router*', function(req, res) {
+    var filesMapping = require(path.resolve(process.cwd(), 'public/dist/filesMapping.json'))
+    if (filesMapping['router']) {
+        res.render('antd', {
+            entryName: filesMapping['router'],
+            common: filesMapping['common']
+        })
+    } else {
+        var err = new Error('无法访问该页面！')
+        err.status = 404
+        throw err
+    }
+})
 router.all('/pages/*', function(req, res) {
     var urlObject = url.parse(req.url)
     var name = path.basename(urlObject.pathname)

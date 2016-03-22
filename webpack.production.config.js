@@ -12,12 +12,12 @@ var entry = {
 }
 deleteFilesByDir(path.resolve(__dirname, 'public/dist'))
 var fileList = getFileList(entryPath)
-fileList.forEach((item, index, array)=> {
+fileList.forEach((item, index, array) => {
     entry[item.relative] = item.path
 })
 
 var deps = [
-    {name: 'react', path: 'react/dist/react.min.js'},
+    { name: 'react', path: 'react/dist/react.min.js' },
     //{name: 'react-dom', path: 'react-dom/dist/react-dom.js'}
 ]
 
@@ -38,7 +38,7 @@ var config = {
         //chunkFilename: "[chunkhash].bundle.js",
         path: path.resolve(__dirname, 'public/dist'),
         filename: '[chunkhash].[name].js',
-        //chunkFilename: "[id].[hash].bundle.js"
+        publicPath: '/dist/'
     },
     node: {
         child_process: 'empty',
@@ -74,16 +74,16 @@ var config = {
         noParse: []
     },
     plugins: [
-        function () {
-            this.plugin("done", function (stats) {
-                    var filesMapping = {}
-                    stats.toJson().assets.forEach((item, index, array)=> {
-                        filesMapping[item.chunkNames[0]] = item.name
-                    })
-                    require("fs").writeFileSync(
-                        path.join(__dirname, "public/dist", "filesMapping.json"),
-                        JSON.stringify(filesMapping))
-                }
+        function() {
+            this.plugin("done", function(stats) {
+                var filesMapping = {}
+                stats.toJson().assets.forEach((item, index, array) => {
+                    filesMapping[item.chunkNames[0]] = item.name
+                })
+                require("fs").writeFileSync(
+                    path.join(__dirname, "public/dist", "filesMapping.json"),
+                    JSON.stringify(filesMapping))
+            }
             )
         },
         new webpack.optimize.OccurenceOrderPlugin(),
@@ -114,7 +114,7 @@ var config = {
         }
     }
 }
-deps.forEach(function (dep) {
+deps.forEach(function(dep) {
     var depPath = path.resolve(node_modules, dep.path)
     //config.resolve.alias[dep.name] = depPath
     //config.module.noParse.push(depPath)

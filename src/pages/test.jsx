@@ -28,6 +28,7 @@ const columns = [{
     dataIndex: 'formOperation',
     width:100,
     render() {
+        console.log('this',arguments)
         return (
             <span>
 <a href="#">添加</a>
