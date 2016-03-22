@@ -1,0 +1,5 @@
+function getForm(args) {
+    var data = {}
+    data = db.form.find({_id: ObjectId(args._id)}).toArray()
+    return data
+}
