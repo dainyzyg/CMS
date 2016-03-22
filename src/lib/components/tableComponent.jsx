@@ -71,7 +71,7 @@ const Tablecomponent = React.createClass({
         this.currentPage=pagination.current;
         this.params.limit=pagination.pageSize;
         this.params.index= (pagination.current - 1) * pagination.pageSize + 1,
-        pager.current = pagination.current;
+            pager.current = pagination.current;
         this.setState({
             pagination: pager
         });
@@ -126,16 +126,16 @@ const Tablecomponent = React.createClass({
     componentDidMount() {
         this.fetch();
     },
-        render() {
-            //var columns=this.props.columns;
-            for(var column of this.props.columns){
-                if(column.render)
-                {
-                    column.render=column.render.bind(this)
-                }
-
+    render() {
+        //var columns=this.props.columns;
+        for(var column of this.props.columns){
+            if(column.render)
+            {
+                column.render=column.render.bind(this)
             }
-            //this.props.columns[5].render=this.props.columns[5].render.bind(this)
+
+        }
+        //this.props.columns[5].render=this.props.columns[5].render.bind(this)
 
         return (
             <div style={{padding:50}}>
