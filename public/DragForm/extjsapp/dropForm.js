@@ -4,28 +4,23 @@
 Ext.define("extjsapp.dropForm", {
     xtype: 'extjsapp.dropForm',
     config: {
-        //items:[{
-        //    border:0,
-        //    columnWidth: 1,
-        //    html:'<hr>'
-        //}],
         plugins: Ext.create('extjsapp.PanelFieldDragZone', {
             ddGroup: 'organizerDD'
         }),
         listeners: {
-            afterrender(e, eOpts){
+            afterrender(e, eOpts) {
                 var that = this
-                Ext.select('body').on('click', function () {
-                        that.extraData.setSelectedField(null)
-                        var fieldStore = Ext.getCmp(this.fieldStoreID)
-                        fieldStore.parent.setData(null)
-                    },
+                Ext.select('body').on('click', function() {
+                    that.extraData.setSelectedField(null)
+                    var fieldStore = Ext.getCmp(this.fieldStoreID)
+                    fieldStore.parent.setData(null)
+                },
                     that,
                     {
                         delegate: '#' + that.id
                     })
                 Ext.select('#' + that.id).on('click',
-                    function (e, t) {
+                    function(e, t) {
                         var item = that.getChildByElement(t.id)
                         that.extraData.setSelectedField(item)
                     },
@@ -42,10 +37,10 @@ Ext.define("extjsapp.dropForm", {
         selectedItem: null,
         fieldMap: new Map(),
         actionDiv: null,
-        createDropTarget(form){
+        createDropTarget(form) {
             this.parent.createDropTarget(form)
         },
-        setSelectedField(item){
+        setSelectedField(item) {
             this.parent.setSelectedField(item)
         }
     },
@@ -173,18 +168,18 @@ Ext.define("extjsapp.dropForm", {
                 }
         }
     },
-    createDropTarget(form){
+    createDropTarget(form) {
         var that = this
         var formPanelDropTarget = new Ext.dd.DropTarget(form.body, {
             ddGroup: 'organizerDD',
-            notifyEnter: function (ddSource, e, data) {
+            notifyEnter: function(ddSource, e, data) {
                 //Add some flare to invite drop.
                 //body.stopAnimation();
                 //body.highlight();
                 //console.log('notifyEnter', e.target)
                 //Ext.getCmp('dropform').remove(data.field);
             },
-            notifyOver: function (ddSource, e, data) {
+            notifyOver: function(ddSource, e, data) {
                 if (data.field) {
                     var dropItem = form.getChildByElement(e.target.id)
                     if (dropItem) {
@@ -212,7 +207,7 @@ Ext.define("extjsapp.dropForm", {
                 }
                 return true
             },
-            notifyDrop: function (ddSource, e, data) {
+            notifyDrop: function(ddSource, e, data) {
                 return true
             }
         });
@@ -235,12 +230,12 @@ Ext.define("extjsapp.dropForm", {
         }
         fieldStore.parent.setData(item)
     },
-    hideActionDiv(){
+    hideActionDiv() {
         if (this.extraData.actionDiv) {
             this.extraData.actionDiv.style.display = 'none'
         }
     },
-    showActionDiv(){
+    showActionDiv() {
         var that = this
         var item = this.extraData.selectedItem
         var cr = item.getEl().dom.getBoundingClientRect()
@@ -259,14 +254,14 @@ Ext.define("extjsapp.dropForm", {
             var editImg = document.createElement('img')
             editImg.src = "extjs/icon/application_form_edit.png"
             editImg.style.cursor = 'pointer'
-            editImg.onclick = ()=> {
+            editImg.onclick = () => {
                 that.setSelectedField(item)
             }
             var deleteImg = document.createElement('img')
             deleteImg.src = "extjs/icon/delete.png"
             deleteImg.style.cursor = 'pointer'
             deleteImg.style.paddingLeft = 8
-            deleteImg.onclick = ()=> {
+            deleteImg.onclick = () => {
                 var selectedItem = that.extraData.selectedItem
                 that.extraData.fieldMap.delete(selectedItem.id)
                 var pGrid = Ext.getCmp(that.form.propertyGridID)
@@ -283,8 +278,48 @@ Ext.define("extjsapp.dropForm", {
             this.extraData.actionDiv.style.left = cr.left + 5
         }
     },
-    constructor: function (cf) {
+    GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    },
+    initData() {
         var that = this
+        var requestParams = this.GetRequest()
+        if (requestParams['id']) {
+            Ext.Ajax.request({
+                async: false,
+                url: '../api/formManagement',
+                params: {
+                    params: JSON.stringify({ _id: requestParams['id'] }),
+                    action: 'get'
+                },
+                method: 'POST',
+                success: function(response, opts) {
+                    var data = Ext.decode(response.responseText)
+                    //alert(JSON.stringify(data))
+                    if (data.err) {
+                        Ext.Msg.alert(data.err.name, data.err.message)
+                        return
+                    }
+                    that.config.items = data.result.retval && data.result.retval.data
+                },
+                failture: function(curForm, act) {
+                    Ext.Msg.alert("提示", "数据保存失败！")
+                }
+            })
+        }
+    },
+    constructor: function(cf) {
+        var that = this
+        this.initData()
         this.form = Ext.create('Ext.form.Panel', Object.assign({}, this.config, cf))
         this.extraData.parent = this
         this.form.extraData = this.extraData

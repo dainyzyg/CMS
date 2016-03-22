@@ -1,5 +1,5 @@
 function getForm(args) {
     var data = {}
-    data = db.form.find({_id: ObjectId(args._id)}).toArray()
+    data = db.form.findOne({_id: ObjectId(args._id)})
     return data
 }

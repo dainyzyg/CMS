@@ -13,6 +13,9 @@ exports.run = function(req, res) {
         case 'getList':
             getList(req, res)
             break
+        case 'get':
+            get(req, res)
+            break
         case 'deleteConfirm':
             deleteConfirm(req, res)
             break
@@ -27,7 +30,12 @@ function save(req, res) {
             res.send(JSON.stringify({ err, result }))
         })
 }
-
+function get(req, res) {
+    mongoDBHelper.runMongo('formManagement/getForm', JSON.parse(req.body.params),
+        (err, result) => {
+            res.send(JSON.stringify({ err, result }))
+        })
+}
 function getList(req, res) {
     var args = {
         index: parseInt(req.body.index),
@@ -37,7 +45,7 @@ function getList(req, res) {
     console.log(args)
     mongoDBHelper.runMongo('formManagement/getFormList', args,
         (err, result) => {
-            console.log('result', JSON.stringify({err, result})),
+            console.log('result', JSON.stringify({ err, result })),
                 res.send(JSON.stringify({ err, result }))
 
         })
@@ -47,8 +55,8 @@ function deleteConfirm(req, res) {
         _id: req.body._id
     }
     //console.log('_id', args._id),
-        mongoDBHelper.runMongo('formManagement/deleteForm', args,
-            (err, result) => {
-                res.send(JSON.stringify(result))
-            })
+    mongoDBHelper.runMongo('formManagement/deleteForm', args,
+        (err, result) => {
+            res.send(JSON.stringify(result))
+        })
 }
