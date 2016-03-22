@@ -3,19 +3,24 @@ function saveForm(args) {
     var dates = ( mydate.getFullYear() + "/" + (mydate.getMonth() + 1) + "/" + mydate.getDate() + " " +
     mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds())
     if (!args._id) {
-        var data={}
-        var  a = new ObjectId()
+        var writeResult = {}
+        var a = new ObjectId()
         args.createTime = dates;
         args.lastmodifyTime = dates;
-        data = db.form.insert(args)
+        writeResult = db.form.insert(args)
         return {
-            'WriteResult': JSON.parse(data.tojson()),
+            'WriteResult': JSON.parse(writeResult.tojson()),
             '_id': a
         }
     }
     else {
+        var writeResult = {}
         args.lastmodifyTime = dates;
-        db.form.update(args)
+        writeResult = db.form.update(args)
+        return {
+            'WriteResult': JSON.parse(writeResult.tojson()),
+            '_id': args._id
+        }
     }
 }
 
