@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import {browserHistory, Router, Route, Link} from 'react-router'
-import HomePage from './lib/components/views/HomePage'
+import HomePage from './lib/components/views/frontpageIndex'
 
 const routes = ['test1', 'test2']
 
