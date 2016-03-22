@@ -32,20 +32,21 @@ function getList(req, res) {
     var args = {
         index: parseInt(req.body.index),
         limit: parseInt(req.body.limit),
-        findField: parseInt(req.body.findField)
+        findField: req.body.findField
     }
     console.log(args)
     mongoDBHelper.runMongo('formManagement/getFormList', args,
         (err, result) => {
-            console.log('result', JSON.stringify(result)),
-                res.send(JSON.stringify(result))
+            console.log('result', JSON.stringify({err, result})),
+                res.send(JSON.stringify({ err, result }))
+
         })
 }
 function deleteConfirm(req, res) {
     var args = {
         _id: req.body._id
     }
-    console.log('_id', args._id),
+    //console.log('_id', args._id),
         mongoDBHelper.runMongo('formManagement/deleteForm', args,
             (err, result) => {
                 res.send(JSON.stringify(result))

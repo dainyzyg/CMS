@@ -65,8 +65,8 @@ function deleteConfirm() {
         },
         type: 'json',
         success: (result) => {
-            console.log('component',this.component)
-            console.log('pagination',this.component.currentPage)
+            //console.log('component',this.component)
+            //console.log('pagination',this.component.currentPage)
             var currentPage=this.component.currentPage||1;
             this.component.fetch({
                 limit: 10,

@@ -25,6 +25,7 @@ const SearchInput = React.createClass({
         if (this.props.onSearch) {
             this.props.onSearch(this.state.value);
         }
+
         //console.log('value',this.state.value);
     },
     render() {
@@ -86,11 +87,12 @@ const Tablecomponent = React.createClass({
             }
         }
         this.fetch();
-        console.log('请求参数：', JSON.stringify(params));
     },
     onSearch(e){
-        console.log('search',e);
+        console.log('search:',e);
         this.params.findField=e;
+        this.params.index=1;
+        this.params.limit=10;
         this.fetch();
     },
 //fetch（）获取数据
@@ -110,11 +112,12 @@ const Tablecomponent = React.createClass({
             },
             type: 'json',
             success: (result) => {
+                console.log('result:',result);
                 const pagination = this.state.pagination;
-                pagination.total = result.retval.totalCount;
+                pagination.total = result.result.retval.totalCount;
                 this.setState({
                     loading: false,
-                    data: result.retval.data,
+                    data: result.result.retval.data,
                     pagination,
                 });
             }
