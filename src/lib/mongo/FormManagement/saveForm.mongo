@@ -1,8 +1,7 @@
-var mydate = new Date();
-var dates = ( mydate.getFullYear() + "/" + (mydate.getMonth()+1)+ "/" + mydate.getDate() + " " +
-mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds())
-function getFormData(args) {
-
+function saveForm(args) {
+    var mydate = new Date();
+    var dates = ( mydate.getFullYear() + "/" + (mydate.getMonth() + 1) + "/" + mydate.getDate() + " " +
+    mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds())
     if (!args._id) {
         args.createTime = dates;
         args.lastmodifyTime = dates;
