@@ -40,9 +40,9 @@ var CommentList = React.createClass({
         //console.log(this.props.data)
         return { data: [] }
     },
-    componentWillReceiveProps(data) {
-        console.log('componentWillReceiveProps', data)
-        this.setState({ data: this.formatData(data.data) })
+    componentWillReceiveProps(state) {
+        console.log('componentWillReceiveProps', state)
+        this.setState({ data: this.formatData(state.data) })
     },
     shouldComponentUpdate() {
         console.log('shouldComponentUpdate', this.props.data)
@@ -56,7 +56,7 @@ var CommentList = React.createClass({
     },
     componentDidMount() {
         console.log('componentDidMount', this.props.data)
-        this.setState({ data: this.formatData(this.props.data) })
+        //this.setState({ data: this.formatData(this.props.data) })
     },
     clickdiv() {
         var data = [
@@ -76,7 +76,7 @@ var CommentList = React.createClass({
         return commentNodes
     },
     render() {
-        var data = this.formatData(this.props.data)
+        //var data = this.formatData(this.props.data)
         //console.log(Boolean(this.state.data))
         return (
             <div className="commentList" onClick={this.clickdiv}>
