@@ -1,0 +1,3 @@
+function deleteFlowData(args) {
+    db.flow.remove({_id:ObjectId(args._id)})
+}
