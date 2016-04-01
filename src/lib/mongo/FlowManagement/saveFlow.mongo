@@ -14,10 +14,11 @@ function saveFlow(args) {
     }
     else {
         var writeResult = {}
+        var a = ObjectId(args._id)
         writeResult = db.flow.update({_id: ObjectId(args._id)}, {$set: args})
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
-            '_id': args._id
+            '_id': a
         }
     }
 }
