@@ -51,7 +51,7 @@ const SearchInput = React.createClass({
         );
     }
 });
-const Tablecomponent = React.createClass({
+const Flowcomponent = React.createClass({
     getInitialState() {
         return {
             data: [],
@@ -162,4 +162,4 @@ const Tablecomponent = React.createClass({
         );
     }
 });
-export default Tablecomponent;
+export default Flowcomponent;
