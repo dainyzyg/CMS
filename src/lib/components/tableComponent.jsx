@@ -14,12 +14,12 @@ const SearchInput = React.createClass({
     },
     handleInputChange(e) {
         this.setState({
-            value: e.target.value,
+            value: e.target.value
         });
     },
     handleFocusBlur(e) {
         this.setState({
-            focus: e.target === document.activeElement,
+            focus: e.target === document.activeElement
         });
     },
     handleSearch() {
@@ -32,11 +32,11 @@ const SearchInput = React.createClass({
     render() {
         const btnCls = classNames({
             'ant-search-btn': true,
-            'ant-search-btn-noempty': !!this.state.value.trim(),
+            'ant-search-btn-noempty': !!this.state.value.trim()
         });
         const searchCls = classNames({
             'ant-search-input': true,
-            'ant-search-input-focus': this.state.focus,
+            'ant-search-input-focus': this.state.focus
         });
         return (
             <InputGroup className={searchCls} style={this.props.style}>
@@ -57,7 +57,7 @@ const Tablecomponent = React.createClass({
         return {
             data: [],
             pagination: {},
-            loading: false,
+            loading: false
         };
     },
     params: {
@@ -119,7 +119,7 @@ const Tablecomponent = React.createClass({
                 this.setState({
                     loading: false,
                     data: result.result.retval.data,
-                    pagination,
+                    pagination
                 });
             }
         });
@@ -139,27 +139,31 @@ const Tablecomponent = React.createClass({
 
         return (
             <div>
-                <Row type="flex" justify="center" align="top">
-                    <Col span="">
+                <Row type="flex" justify="center">
+                    <Col >
                         <h1>表单配置</h1>
                     </Col>
                 </Row>
                 <Row style={{marginBottom:5}}>
-                    <Col span="8">
+                    <Col span="8" offset="1">
                         <Button type="primary" onClick={this.props.onAdd}
                                 style={{float:'left',width:100}}>新增编辑器 </Button>
                     </Col>
-                    <Col span="4" offset="12">
+                    <Col span="6" offset="8">
                         <SearchInput placeholder="请输入查询内容" onSearch={this.onSearch}
-                                     style={{ float:'right',width:200 }}/>
+                                     style={{ float:'right'}}/>
                     </Col>
                 </Row>
-                <Table columns={this.props.columns}
-                       dataSource={this.state.data}
-                       pagination={this.state.pagination}
-                       loading={this.state.loading}
-                       onChange={this.handleTableChange}
-                       bordered/>
+                <Row type="flex" justify="center">
+                    <Col span="22">
+                        <Table columns={this.props.columns}
+                               dataSource={this.state.data}
+                               pagination={this.state.pagination}
+                               loading={this.state.loading}
+                               onChange={this.handleTableChange}
+                               bordered/>
+                    </Col>
+                </Row>
             </div>
         );
     }
