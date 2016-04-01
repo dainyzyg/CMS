@@ -138,18 +138,18 @@ const Flowcomponent = React.createClass({
         //this.props.columns[5].render=this.props.columns[5].render.bind(this)
 
         return (
-            <div style={{padding:50}}>
+            <div>
                 <Row type="flex" justify="center" align="top">
                     <Col span="">
-                        <h1>流程配置</h1>
+                        <h1>流程管理</h1>
                     </Col>
                 </Row>
                 <Row style={{marginBottom:5}}>
                     <Col span="8">
-                        <Button type="primary" onClick={this.props.onAdd}>新增编辑器</Button>
+                        <Button type="primary" onClick={this.props.onAdd}>新增流程</Button>
                     </Col>
                     <Col span="4" offset="12">
-                        <SearchInput placeholder="请输入查询内容" onSearch={this.onSearch} style={{ width: 200 }}/>
+                        <SearchInput placeholder="请输入查询内容" onSearch={this.onSearch} style={{ width: 200,float:'right' }}/>
                     </Col>
                 </Row>
                 <Table columns={this.props.columns}
