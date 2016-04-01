@@ -44,11 +44,11 @@ const Frontpage = React.createClass({
                                   selectedKeys={[this.props.location.pathname]}
                                   onSelect={this.onSelect}>
                                 <SubMenu key="sub1" title={<span><Icon type="user" />导航一</span>}>
-                                    <Menu.Item key="/router/test1">
-                                        <Link to="/router/test1">表单管理</Link>
+                                    <Menu.Item key="/router/formManagement">
+                                        <Link to="/router/formManagement">表单管理</Link>
                                     </Menu.Item>
-                                    <Menu.Item key="/router/test2">
-                                        <Link to="/router/test2">流程管理</Link>
+                                    <Menu.Item key="/router/flowTable">
+                                        <Link to="/router/flowTable">流程管理</Link>
                                     </Menu.Item>
                                     <Menu.Item>选项3</Menu.Item>
                                     <Menu.Item>选项4</Menu.Item>
