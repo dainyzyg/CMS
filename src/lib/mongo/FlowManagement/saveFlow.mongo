@@ -9,13 +9,13 @@ function saveFlow(args) {
         writeResult = db.flow.insert(args)
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
-            '_id': a
+            '_id':writeResult._id
         }
     }
     else {
         var writeResult = {}
         var a = ObjectId(args._id)
-        writeResult = db.flow.update({_id: a}, {$set: args})
+        writeResult = db.flow.update({_id: a}, {"$set": args})
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
             '_id': a
