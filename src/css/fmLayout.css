@@ -1,33 +1,38 @@
 .ant-layout-header {
     height: 64px;
     border-bottom: 1px solid #e9e9e9;
-    background: #fff;
 }
 
 .ant-layout-container {
-    background: #fff;
-    margin: 24px 0 0;
     position: relative;
     overflow: hidden;
 }
 
 .ant-layout-sider {
+    margin-top: 24px;
     width: 200px;
     float: left;
 }
 
 .ant-layout-content {
-    border-left: 1px solid #e9e9e9;
-    padding: 0 24px;
+    padding: 5px;
     overflow: auto;
-    position: relative;
-    left: -1px;
+    position: fixed;
+    left: 200px;
+    top: 64px;
+    bottom: 0;
+    right: 0;
 }
 
-.ant-layout-footer {
-    height: 64px;
-    line-height: 64px;
-    text-align: center;
-    font-size: 12px;
-    color: #999;
+.ant-layout-iframe {
+    height: 100%;
+    width:  100%;
+    frameborder: no;
+    border:0;
 }
+
+.ant-layout-table {
+    width:  100%;
+    height: 100%;
+   }
+

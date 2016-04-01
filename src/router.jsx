@@ -1,9 +1,9 @@
 import React from 'react'
 import { render } from 'react-dom'
 import {browserHistory, Router, Route, Link} from 'react-router'
-import HomePage from './lib/components/views/frontpageIndex'
+import HomePage from './lib/components/views/frontpageIndex.jsx'
 
-const routes = ['test1', 'test2']
+const routes = ['test1', 'test2', 'iframeAddeditor', 'iframeEditcontent']
 
 // const childRoutes = routes.map((name) => {
 //     return  require(`./views/${name}`)

@@ -54,11 +54,12 @@ const Formtable = React.createClass({
     componentDidMount() {
     },
     addEditor() {
-        browserHistory.push('/router/iframeContent')
+        browserHistory.push('/router/iframeAddeditor')
     },
     editContent(ed)
     {
-        window.location.href = '../dragform/dragform.html?id=' + ed.record._id
+        browserHistory.push('/router/iframeEditcontent?id='+ ed.record._id)
+        //window.location.href = '../dragform/dragform.html?id=' + ed.record._id
     },
     deleteConfirm(de)
     {
