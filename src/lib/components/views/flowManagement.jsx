@@ -7,9 +7,9 @@ import { browserHistory } from 'react-router'
 
 const Flowtable = React.createClass({
     getInitialState() {
-        var that = this
+        var that = this;
         return {
-            columns = [{
+            columns : [{
                 title: '表单ID',
                 dataIndex: '_id',
                 width: 120
@@ -19,7 +19,7 @@ const Flowtable = React.createClass({
                 width: 200
             }, {
                 title: '表单',
-                dataIndex: 'flow',
+                dataIndex: 'flow'
             },
                 {
                     title: '创建时间',
@@ -37,7 +37,7 @@ const Flowtable = React.createClass({
                     var bindObject = {
                         component: this,
                         record: record
-                    }
+                    };
                     return (
                         <span>
                             <a href="#">发起</a>
@@ -94,6 +94,6 @@ const Flowtable = React.createClass({
     {
         return (<Flowcomponent columns={this.state.columns} onAdd={this.addEditor}/>)
     }
-})
+});
 
 export default Flowtable;
