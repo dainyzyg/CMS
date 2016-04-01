@@ -7,9 +7,9 @@ import { browserHistory } from 'react-router'
 
 const Formtable = React.createClass({
     getInitialState() {
-        var that = this
+        var that = this;
         return {
-            columns = [{
+            columns : [{
                 title: '表单ID',
                 dataIndex: '_id',
                 width: 120
@@ -35,7 +35,7 @@ const Formtable = React.createClass({
                     var bindObject = {
                         component: this,
                         record: record
-                    }
+                    };
                     return (
                         <span>
                  <a href="#" onClick={that.editContent.bind(that,bindObject)}>编辑</a>
@@ -58,7 +58,7 @@ const Formtable = React.createClass({
     },
     editContent(ed)
     {
-        browserHistory.push('/router/iframeEditcontent?id='+ ed.record._id)
+        browserHistory.push('/router/iframeEditcontent?id='+ ed.record._id);
         //window.location.href = '../dragform/dragform.html?id=' + ed.record._id
     },
     deleteConfirm(de)
@@ -91,6 +91,6 @@ const Formtable = React.createClass({
     {
         return (<Tablecomponent columns={this.state.columns} onAdd={this.addEditor}/>)
     }
-})
+});
 
 export default Formtable;
