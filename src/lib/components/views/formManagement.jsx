@@ -9,7 +9,7 @@ const Formtable = React.createClass({
     getInitialState() {
         var that = this
         return {
-            columns: [{
+            columns = [{
                 title: '表单ID',
                 dataIndex: '_id',
                 width: 120
