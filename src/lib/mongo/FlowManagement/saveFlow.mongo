@@ -15,7 +15,7 @@ function saveFlow(args) {
     else {
         var writeResult = {}
         var a = ObjectId(args._id)
-        writeResult = db.flow.update({_id: ObjectId(args._id)}, {$set: args})
+        writeResult = db.flow.update({_id: a}, {$set: args})
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
             '_id': a
