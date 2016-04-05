@@ -9,7 +9,7 @@ const Formtable = React.createClass({
     getInitialState() {
         var that = this;
         return {
-            columns : [{
+            columns: [{
                 title: '表单ID',
                 dataIndex: '_id',
                 width: 120
@@ -38,9 +38,9 @@ const Formtable = React.createClass({
                     };
                     return (
                         <span>
-                 <a href="#" onClick={that.editContent.bind(that,bindObject)}>编辑</a>
+                 <a href="#" onClick={that.editContent.bind(that,record)}>编辑</a>
                  <span className="ant-divider"></span>
-                 <Popconfirm placement="left" title="确定要删除这个流程吗？" onConfirm={that.deleteConfirm.bind(that,bindObject)}
+                 <Popconfirm placement="left" title="确定要删除这个流程吗？" onConfirm={that.deleteConfirm.bind(that,record)}
                              onCancel={that.deleteCancel}>
                      <a href="#">删除</a>
                  </Popconfirm>
@@ -54,28 +54,35 @@ const Formtable = React.createClass({
     componentDidMount() {
     },
     addEditor() {
-        browserHistory.push('/router/iframeAddeditor')
+        var urlObject = {
+            pathname: '/router/iframeComponent',
+            query: {url: `../dragform/dragform.html`}
+        };
+        browserHistory.push(urlObject)
     },
-    editContent(ed)
+    editContent(record)
     {
-        browserHistory.push('/router/iframeEditcontent?id='+ ed.record._id);
-        //window.location.href = '../dragform/dragform.html?id=' + ed.record._id
+        var urlObject = {
+            pathname: '/router/iframeComponent',
+            query: {url: `../dragform/dragform.html?id=${record._id}`}
+        };
+        browserHistory.push(urlObject)
     },
-    deleteConfirm(de)
+    deleteConfirm(record)
     {
         reqwest({
             url: '../api/formManagement',
             method: 'post',
             data: {
                 action: 'deleteConfirm',
-                _id: de.record._id
+                _id: record._id
             },
             type: 'json',
             success: (result) => {
                 //console.log('component',this.component)
                 //console.log('pagination',this.component.currentPage)
-                var currentPage = de.component.currentPage || 1;
-                de.component.fetch({
+                var currentPage = this.currentPage || 1;
+                this.fetch({
                     limit: 10,
                     index: (currentPage - 1) * 10 + 1
                 });
