@@ -43,27 +43,17 @@ const Frontpage = React.createClass({
                                   onClose={this.onToggle}
                                   selectedKeys={[this.props.location.pathname]}
                                   onSelect={this.onSelect}>
-                                <SubMenu key="sub1" title={<span><Icon type="user" />导航一</span>}>
+                                <SubMenu key="sub1" title={<span><Icon type="user" />系统管理</span>}>
                                     <Menu.Item key="/router/formManagement">
                                         <Link to="/router/formManagement">表单管理</Link>
                                     </Menu.Item>
                                     <Menu.Item key="/router/flowTable">
                                         <Link to="/router/flowTable">流程管理</Link>
                                     </Menu.Item>
-                                    <Menu.Item>选项3</Menu.Item>
-                                    <Menu.Item>选项4</Menu.Item>
                                 </SubMenu>
-                                <SubMenu key="sub2" title={<span><Icon type="laptop" />导航二</span>}>
-                                    <Menu.Item>选项5</Menu.Item>
-                                    <Menu.Item>选项6</Menu.Item>
-                                    <Menu.Item>选项7</Menu.Item>
-                                    <Menu.Item>选项8</Menu.Item>
-                                </SubMenu>
-                                <SubMenu key="sub3" title={<span><Icon type="notification" />导航三</span>}>
-                                    <Menu.Item>选项9</Menu.Item>
-                                    <Menu.Item>选项10</Menu.Item>
-                                    <Menu.Item>选项11</Menu.Item>
-                                    <Menu.Item>选项12</Menu.Item>
+                                <SubMenu key="sub2" title={<span><Icon type="laptop" />应用管理</span>}>
+                                    <Menu.Item>组织机构管理</Menu.Item>
+                                    <Menu.Item>用户配置管理</Menu.Item>
                                 </SubMenu>
                             </Menu>
                         </aside>
