@@ -10,8 +10,7 @@ function saveFlow(args) {
         writeResult = db.flow.insert(args)
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
-            '_id':arg._id
-
+            '_id':args._id
         }
     }
     else {
