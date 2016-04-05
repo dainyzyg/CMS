@@ -133,7 +133,6 @@ const Tablecomponent = React.createClass({
             if (column.render) {
                 column.render = column.render.bind(this)
             }
-
         }
         //this.props.columns[5].render=this.props.columns[5].render.bind(this)
 
