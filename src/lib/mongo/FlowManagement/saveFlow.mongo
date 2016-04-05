@@ -1,12 +1,10 @@
 function saveFlow(args) {
     var mydate = new Date();
-    var dates = ( mydate.getFullYear() + "/" + (mydate.getMonth() + 1) + "/" + mydate.getDate() + " " +
-    mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds())
     if (!args._id) {
         var writeResult = {}
         var a = new ObjectId()
         args._id = a
-        args.createTime = dates;
+        args.createTime = mydate;
         writeResult = db.flow.insert(args)
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
@@ -15,11 +13,11 @@ function saveFlow(args) {
     }
     else {
         var writeResult = {}
-        var a = ObjectId(args._id)
-        writeResult = db.flow.update({_id: a}, {"$set": args})
+        args._id = ObjectId(args._id)
+        writeResult = db.flow.update({_id:args._id},{$set:args})
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
-            '_id': a
+            '_id': args._id
         }
     }
 }
