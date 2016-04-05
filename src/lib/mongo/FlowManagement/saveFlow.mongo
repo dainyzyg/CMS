@@ -5,11 +5,13 @@ function saveFlow(args) {
     if (!args._id) {
         var writeResult = {}
         var a = new ObjectId()
+        args._id = a
         args.createTime = dates;
         writeResult = db.flow.insert(args)
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
-            '_id':writeResult._id
+            '_id':arg._id
+
         }
     }
     else {
