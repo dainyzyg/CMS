@@ -22,11 +22,23 @@ const Formtable = React.createClass({
             }, {
                 title: '创建时间',
                 dataIndex: 'createTime',
-                width: 100
+                width: 100,
+                render(text, record){
+                    var dates = record.createTime.substr(0, 4) + "-" + record.createTime.substr(5, 2) + "-" + record.createTime.substr(8, 2);
+                    return (
+                        <span>{dates}</span>
+                    )
+                }
             }, {
                 title: '最后修改时间',
                 dataIndex: 'lastmodifyTime',
-                width: 100
+                width: 100,
+                render(text, record){
+                    var dates = record.lastmodifyTime.substr(0, 4) + "-" + record.lastmodifyTime.substr(5, 2) + "-" + record.lastmodifyTime.substr(8, 2);
+                    return (
+                        <span>{dates}</span>
+                    )
+                }
             }, {
                 title: '操作',
                 dataIndex: 'formOperation',
