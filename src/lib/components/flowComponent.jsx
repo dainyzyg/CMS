@@ -59,18 +59,18 @@ const Flowcomponent = React.createClass({
             loading: false,
         };
     },
-    params:{
-        limit:10,
-        index:1,
-        sortField:'',
-        sortOrder:'',
-        findField:''
+    params: {
+        limit: 10,
+        index: 1,
+        sortField: '',
+        sortOrder: '',
+        findField: ''
     },
     handleTableChange(pagination, filters, sorter) {
         const pager = this.state.pagination;
-        this.currentPage=pagination.current;
-        this.params.limit=pagination.pageSize;
-        this.params.index= (pagination.current - 1) * pagination.pageSize + 1,
+        this.currentPage = pagination.current;
+        this.params.limit = pagination.pageSize;
+        this.params.index = (pagination.current - 1) * pagination.pageSize + 1,
             pager.current = pagination.current;
         this.setState({
             pagination: pager
@@ -89,10 +89,10 @@ const Flowcomponent = React.createClass({
         this.fetch();
     },
     onSearch(e){
-        console.log('search:',e);
-        this.params.findField=e;
-        this.params.index=1;
-        this.params.limit=10;
+        console.log('search:', e);
+        this.params.findField = e;
+        this.params.index = 1;
+        this.params.limit = 10;
         this.fetch();
     },
 //fetch（）获取数据
@@ -106,13 +106,13 @@ const Flowcomponent = React.createClass({
                 action: 'getList',
                 index: this.params.index,
                 limit: this.params.limit,
-                sortField:this.params.sortField,
-                sortOrder:this.params.sortOrder,
-                findField:this.params.findField
+                sortField: this.params.sortField,
+                sortOrder: this.params.sortOrder,
+                findField: this.params.findField
             },
             type: 'json',
             success: (result) => {
-                console.log('result:',result);
+                console.log('result:', result);
                 const pagination = this.state.pagination;
                 pagination.total = result.result.retval.totalCount;
                 this.setState({
@@ -128,10 +128,9 @@ const Flowcomponent = React.createClass({
     },
     render() {
         //var columns=this.props.columns;
-        for(var column of this.props.columns){
-            if(column.render)
-            {
-                column.render=column.render.bind(this)
+        for (var column of this.props.columns) {
+            if (column.render) {
+                column.render = column.render.bind(this)
             }
 
         }
@@ -139,25 +138,31 @@ const Flowcomponent = React.createClass({
 
         return (
             <div>
-                <Row type="flex" justify="center" align="top">
-                    <Col span="">
+                <Row type="flex" justify="center">
+                    <Col>
                         <h1>流程管理</h1>
                     </Col>
                 </Row>
                 <Row style={{marginBottom:5}}>
-                    <Col span="8">
-                        <Button type="primary" onClick={this.props.onAdd}>新增流程</Button>
+                    <Col span="8" offset="1">
+                        <Button type="primary" onClick={this.props.onAdd}
+                                style={{float:'left',width:100}}>新增流程 </Button>
                     </Col>
-                    <Col span="4" offset="12">
-                        <SearchInput placeholder="请输入查询内容" onSearch={this.onSearch} style={{ width: 200,float:'right' }}/>
+                    <Col span="6" offset="8">
+                        <SearchInput placeholder="请输入查询内容" onSearch={this.onSearch}
+                                     style={{ width: 200,float:'right' }}/>
                     </Col>
                 </Row>
-                <Table columns={this.props.columns}
-                       dataSource={this.state.data}
-                       pagination={this.state.pagination}
-                       loading={this.state.loading}
-                       onChange={this.handleTableChange}
-                       bordered/>
+                <Row type="flex" justify="center">
+                    <Col span="22">
+                        <Table columns={this.props.columns}
+                               dataSource={this.state.data}
+                               pagination={this.state.pagination}
+                               loading={this.state.loading}
+                               onChange={this.handleTableChange}
+                               bordered/>
+                    </Col>
+                </Row>
             </div>
         );
     }

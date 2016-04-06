@@ -9,7 +9,7 @@ const Flowtable = React.createClass({
     getInitialState() {
         var that = this;
         return {
-            columns : [{
+            columns: [{
                 title: '表单ID',
                 dataIndex: '_id',
                 width: 120
@@ -24,7 +24,13 @@ const Flowtable = React.createClass({
                 {
                     title: '创建时间',
                     dataIndex: 'createTime',
-                    width: 100
+                    width: 100,
+                    render(text, record){
+                        var dates = record.createTime.substr(0, 4) + "-" + record.createTime.substr(5, 2) + "-" + record.createTime.substr(8, 2)
+                        return (
+                            <span>{dates}</span>
+                        )
+                    }
                 }, {
                     title: '流程类型',
                     dataIndex: 'type',
@@ -33,13 +39,13 @@ const Flowtable = React.createClass({
                     title: '操作',
                     dataIndex: 'formOperation',
                     width: 200,
-                render(text, record) {
-                    var bindObject = {
-                        component: this,
-                        record: record
-                    };
-                    return (
-                        <span>
+                    render(text, record) {
+                        var bindObject = {
+                            component: this,
+                            record: record
+                        };
+                        return (
+                            <span>
                             <a href="#">发起</a>
                 <span className="ant-divider"></span>
                  <a href="#" onClick={that.editContent.bind(that,bindObject)}>编辑</a>
@@ -50,19 +56,19 @@ const Flowtable = React.createClass({
                  </Popconfirm>
                  <span className="ant-divider"></span>
              </span>
-                    );
-                }
-            }]
+                        );
+                    }
+                }]
         }
     },
     componentDidMount() {
     },
     addEditor() {
-        browserHistory.push('/router/iframeContent')
+        browserHistory.push('/router/iframeAddeditor')
     },
     editContent(ed)
     {
-        window.location.href = '../dragform/dragform.html?id=' + ed.record._id
+        browserHistory.push('/router/iframeEditcontent?id=' + ed.record._id);
     },
     deleteConfirm(de)
     {
