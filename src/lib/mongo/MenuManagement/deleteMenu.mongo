@@ -1,0 +1,6 @@
+/**
+ * Created by Baggio on 2016/3/23.
+ */
+ function deleteMenuData(args) {
+     db.menu.remove({_id:ObjectId(args._id)})
+ }

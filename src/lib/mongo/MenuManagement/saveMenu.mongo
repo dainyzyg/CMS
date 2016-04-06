@@ -1,0 +1,15 @@
+/**
+ * Created by Baggio on 2016/3/23.
+ */
+ function insertMenuData(args) {
+ if (!args._id) {
+ args._id=new ObjectId()
+     db.menu.insert(args)
+     console.log('insert',args)
+     }
+ else{
+ args._id = ObjectId(args._id)
+ db.menu.update({_id: args._id}, {$set: args})
+ console.log('update',args)
+ }
+ }
