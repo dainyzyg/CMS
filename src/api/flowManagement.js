@@ -25,13 +25,13 @@ exports.run = function(req, res) {
 }
 
 function save(req, res) {
-    mongoDBHelper.runMongo('formManagement/saveForm', JSON.parse(req.body.data),
+    mongoDBHelper.runMongo('flowManagement/saveFlow', JSON.parse(req.body.data),
         (err, result) => {
             res.send(JSON.stringify({ err, result }))
         })
 }
 function get(req, res) {
-    mongoDBHelper.runMongo('formManagement/getForm', JSON.parse(req.body.params),
+    mongoDBHelper.runMongo('flowManagement/getFlow', JSON.parse(req.body.params),
         (err, result) => {
             res.send(JSON.stringify({ err, result }))
         })
@@ -43,7 +43,7 @@ function getList(req, res) {
         findField: req.body.findField
     }
     console.log(args)
-    mongoDBHelper.runMongo('formManagement/getFormList', args,
+    mongoDBHelper.runMongo('flowManagement/getFlowList', args,
         (err, result) => {
             console.log('result', JSON.stringify({ err, result })),
                 res.send(JSON.stringify({ err, result }))
@@ -55,7 +55,7 @@ function deleteConfirm(req, res) {
         _id: req.body._id
     }
     //console.log('_id', args._id),
-    mongoDBHelper.runMongo('formManagement/deleteForm', args,
+    mongoDBHelper.runMongo('flowManagement/deleteFlow', args,
         (err, result) => {
             res.send(JSON.stringify(result))
         })

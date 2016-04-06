@@ -9,6 +9,7 @@ var node_modules = path.resolve(__dirname, 'node_modules')
 var entryPath = path.resolve(__dirname, './src/pages')
 var entry = {
     //common: ['react', 'react-dom', 'antd']
+    router: path.resolve(__dirname, './src/router.jsx')
 }
 deleteFilesByDir(path.resolve(__dirname, 'public/dist'))
 var fileList = getFileList(entryPath)

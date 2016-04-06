@@ -1,105 +1,134 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <title>流程设计器</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link href="Public/css/bootstrap/css/bootstrap.css?2025" rel="stylesheet" type="text/css"/>
+    <link href="Public/css/bootstrap/css/bootstrap.css?2025" rel="stylesheet" type="text/css" />
     <!--[if lte IE 6]>
     <link rel="stylesheet" type="text/css" href="Public/css/bootstrap/css/bootstrap-ie6.css?2025">
     <![endif]-->
     <!--[if lte IE 7]>
     <link rel="stylesheet" type="text/css" href="Public/css/bootstrap/css/ie.css?2025">
     <![endif]-->
-    <link href="Public/css/site.css?2025" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="Public/js/flowdesign/flowdesign.css"/>
+    <link href="Public/css/site.css?2025" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="Public/js/flowdesign/flowdesign.css" />
     <!--select 2-->
-    <link rel="stylesheet" type="text/css" href="Public/js/jquery.multiselect2side/css/jquery.multiselect2side.css"/>
+    <link rel="stylesheet" type="text/css" href="Public/js/jquery.multiselect2side/css/jquery.multiselect2side.css" />
 </head>
+
 <body>
 
 
-<!-- fixed navbar -->
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <div class="pull-right">
-                <button class="btn btn-info" type="button" id="leipi_save">保存设计</button>
-                <button class="btn btn-danger" type="button" id="leipi_clear">清空连接</button>
+    <!-- fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <div class="pull-left">
+                    <input type="text" style="margin-top:5px;margin-bottom:1px" id="workflowname" placeholder="流程名称">
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-info" type="button" id="leipi_save">保存设计</button>
+                    <button class="btn btn-danger" type="button" id="leipi_clear">清空连接</button>
+                    <button class="btn btn-success" type="button" id="simulationRun">模拟运行</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <div id="simulationModal" style="width:800px;margin-left:-400px" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">模拟流程</h3>
+        </div>
+        <div class="modal-body">
+            <p>当前步骤：<span class="label label-success" id='currentStepName'>领导审批</span> </p>
+            <hr>
+            <p id='stepButton' class="pull-left">
+                <button class="btn btn-info" type="button">送审1</button>
+                <button class="btn btn-info" type="button">送审2</button>
+                <button class="btn btn-info" type="button">送审3</button>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" id='resetWF'>重置</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 
-
-<!-- Modal -->
-<div id="alertModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3>消息提示</h3>
+        </div>
     </div>
-    <div class="modal-body">
-        <p>提示内容</p>
+
+
+    <!-- Modal -->
+    <div id="alertModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>消息提示</h3>
+        </div>
+        <div class="modal-body">
+            <p>提示内容</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">我知道了</button>
+        </div>
     </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">我知道了</button>
+
+    <!-- attributeModal -->
+    <div id="attributeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+    style="width:800px;margin-left:-400px">
+        <div class="modal-body" style="max-height:500px;">
+            <!-- body -->
+        </div>
+        <div class="modal-footer" style="padding:5px;">
+            <!--a href="#" class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-remove icon-white"></i></a-->
+        </div>
     </div>
-</div>
 
-<!-- attributeModal -->
-<div id="attributeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true" style="width:800px;margin-left:-350px">
-    <div class="modal-body" style="max-height:500px;"><!-- body --></div>
-    <div class="modal-footer" style="padding:5px;">
-        <!--a href="#" class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-remove icon-white"></i></a-->
+
+    <!--contextmenu div-->
+    <div id="processMenu" style="display:none;">
+        <ul>
+            <!--li id="pm_begin"><i class="icon-play"></i>&nbsp;<span class="_label">设为第一步</span></li-->
+            <!--li id="pm_addson"><i class="icon-plus"></i>&nbsp;<span class="_label">添加子步骤</span></li-->
+            <!--li id="pm_copy"><i class="icon-check"></i>&nbsp;<span class="_label">复制</span></li-->
+            <li id="pmAttribute"><i class="icon-cog"></i>&nbsp;<span class="_label">属性</span></li>
+            <li id="pmForm"><i class="icon-th"></i>&nbsp;<span class="_label">表单字段</span></li>
+            <li id="pmJudge"><i class="icon-share-alt"></i>&nbsp;<span class="_label">转出条件</span></li>
+            <li id="pmSetting"><i class=" icon-wrench"></i>&nbsp;<span class="_label">样式</span></li>
+            <li id="pmDelete"><i class="icon-trash"></i>&nbsp;<span class="_label">删除</span></li>
+
+        </ul>
     </div>
-</div>
+    <div id="canvasMenu" style="display:none;">
+        <ul>
+            <li id="cmSave"><i class="icon-ok"></i>&nbsp;<span class="_label">保存设计</span></li>
+            <li id="cmAdd"><i class="icon-plus"></i>&nbsp;<span class="_label">添加步骤</span></li>
+            <li id="cmRefresh"><i class="icon-refresh"></i>&nbsp;<span class="_label">刷新 F5</span></li>
+            <!--li id="cmPaste"><i class="icon-share"></i>&nbsp;<span class="_label">粘贴</span></li-->
+            <!--<li id="cmHelp"><i class="icon-search"></i>&nbsp;<span class="_label">帮助</span></li>-->
+        </ul>
+    </div>
+    <!--end div-->
+
+    <div class="container mini-layout" id="flowdesign_canvas">
+        <!--div class="process-step btn" style="left: 189px; top: 340px;"><span class="process-num badge badge-inverse"><i class="icon-star icon-white"></i>3</span> 步骤3</div-->
+    </div>
+    <!-- /container -->
 
 
-<!--contextmenu div-->
-<div id="processMenu" style="display:none;">
-    <ul>
-        <!--li id="pm_begin"><i class="icon-play"></i>&nbsp;<span class="_label">设为第一步</span></li-->
-        <!--li id="pm_addson"><i class="icon-plus"></i>&nbsp;<span class="_label">添加子步骤</span></li-->
-        <!--li id="pm_copy"><i class="icon-check"></i>&nbsp;<span class="_label">复制</span></li-->
-        <li id="pmAttribute"><i class="icon-cog"></i>&nbsp;<span class="_label">属性</span></li>
-        <li id="pmForm"><i class="icon-th"></i>&nbsp;<span class="_label">表单字段</span></li>
-        <li id="pmJudge"><i class="icon-share-alt"></i>&nbsp;<span class="_label">转出条件</span></li>
-        <li id="pmSetting"><i class=" icon-wrench"></i>&nbsp;<span class="_label">样式</span></li>
-        <li id="pmDelete"><i class="icon-trash"></i>&nbsp;<span class="_label">删除</span></li>
-
-    </ul>
-</div>
-<div id="canvasMenu" style="display:none;">
-    <ul>
-        <li id="cmSave"><i class="icon-ok"></i>&nbsp;<span class="_label">保存设计</span></li>
-        <li id="cmAdd"><i class="icon-plus"></i>&nbsp;<span class="_label">添加步骤</span></li>
-        <li id="cmRefresh"><i class="icon-refresh"></i>&nbsp;<span class="_label">刷新 F5</span></li>
-        <!--li id="cmPaste"><i class="icon-share"></i>&nbsp;<span class="_label">粘贴</span></li-->
-        <!--<li id="cmHelp"><i class="icon-search"></i>&nbsp;<span class="_label">帮助</span></li>-->
-    </ul>
-</div>
-<!--end div-->
-
-<div class="container mini-layout" id="flowdesign_canvas">
-    <!--div class="process-step btn" style="left: 189px; top: 340px;"><span class="process-num badge badge-inverse"><i class="icon-star icon-white"></i>3</span> 步骤3</div-->
-</div>
-<!-- /container -->
-
-
-<script type="text/javascript" src="Public/js/jquery-1.7.2.min.js?2025"></script>
-<script type="text/javascript" src="Public/css/bootstrap/js/bootstrap.min.js?2025"></script>
-<script type="text/javascript" src="Public/js/jquery-ui/jquery-ui-1.9.2-min.js?2025"></script>
-<script type="text/javascript" src="Public/js/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js?2025"></script>
-<script type="text/javascript" src="Public/js/jquery.contextmenu.r2.js?2025"></script>
-<!--select 2-->
-<script type="text/javascript" src="Public/js/jquery.multiselect2side/js/jquery.multiselect2side.js?2025"></script>
-<!--flowdesign-->
-<script type="text/javascript" src="Public/js/flowdesign/leipi.flowdesign.v3.js?2025"></script>
-<script type="text/javascript">
-    var the_flow_id = '4';
+    <script type="text/javascript" src="Public/js/jquery-1.7.2.min.js?2025"></script>
+    <script type="text/javascript" src="Public/css/bootstrap/js/bootstrap.min.js?2025"></script>
+    <script type="text/javascript" src="Public/js/jquery-ui/jquery-ui-1.9.2-min.js?2025"></script>
+    <script type="text/javascript" src="Public/js/jsPlumb/jquery.jsPlumb-1.3.16-all-min.js?2025"></script>
+    <script type="text/javascript" src="Public/js/jquery.contextmenu.r2.js?2025"></script>
+    <!--select 2-->
+    <script type="text/javascript" src="Public/js/jquery.multiselect2side/js/jquery.multiselect2side.js?2025"></script>
+    <!--flowdesign-->
+    <script type="text/javascript" src="Public/js/flowdesign/leipi.flowdesign.v3.js?2025"></script>
+    <script type="text/javascript" src="../../javascripts/DDworkflow.js"></script>
+    <script type="text/javascript">
+        var the_flow_id = '4';
 
     /*页面回调执行    callbackSuperDialog
      if(window.ActiveXObject){ //IE
@@ -146,8 +175,34 @@
 
         }
     }
-
-
+    function getNewStepID(){
+        var keys=Object.keys(processData.list)
+        return Math.max(...keys)+1
+    }
+    function getProcessData(){
+        var process={}
+        var processInfo = JSON.parse(_canvas.getProcessInfo())
+        for(var i in processInfo){
+            // console.log(processInfo[i])            
+            process[i]=processData.list[i]
+            //console.log(process[i])
+            process[i].process_to=processInfo[i].process_to
+            process[i].style=`left:${processInfo[i].left}px;top:${processInfo[i].top}px;color:#0e76a8;`
+        }
+        return process
+    }
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = (strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
     $(function () {
         var alertModal = $('#alertModal'), attributeModal = $("#attributeModal");
         //消息提示
@@ -191,7 +246,7 @@
          js 命名习惯：首字母小写 + 其它首字线大写
          */
         /*步骤数据*/
-        var processData = {
+        var processData3 = {
             "total": 5,
             "list": [{
                 "id": "61",
@@ -259,37 +314,145 @@
                 },
             }
         }
-        var processData3 = {
-            list: {
-                "0": {
-                    "id": "36",//当前步骤ID
-                    "flow_id": "28",//所属流程ID
-                    "process_name": "startaaa",//步骤名称
-                    "process_to": "37",//下一步 多个用 逗号隔开
-                    "icon": "icon-play",//图标
-                    "style": "left:483px;top:68px;color:#0e76a8;"//样式
+        processData={}
+        var requestParams = GetRequest()
+        if (requestParams['id']) {
+            $.ajax({
+                async: false,
+                url: '../api/flowManagement',
+                data: {
+                    params: JSON.stringify({ _id: requestParams['id'] }),
+                    action: 'get'
                 },
-                "37": {
-                    "id": "37",//当前步骤ID
-                    "flow_id": "8",//所属流程ID
-                    "process_name": "填写表单",//步骤名称
-                    "process_to": "38",//下一步 多个用 逗号隔开
-                    "icon": "icon-play",//图标
-                    "style": "left:183px;top:68px;color:#0e76a8;"//样式
+                type: 'post',
+                dataType: 'json',
+                success: function(resobject) {
+                    console.log(resobject)
+                    if (resobject.err) {
+                        mAlert(resobject.err.name+':'+ resobject.err.message)
+                        return
+                    }
+                    $('#workflowname').val(resobject.result.retval && resobject.result.retval.flowName)
+                    processData.list = resobject.result.retval && resobject.result.retval.workFlowJSON
                 },
-                "38": {
-                    "id": "38",//当前步骤ID
-                    "flow_id": "81",//所属流程ID
-                    "process_name": "填写表单2222",//步骤名称
-                    "process_to": "36,37",//下一步 多个用 逗号隔开
-                    "icon": "icon-play",//图标
-                    "style": "left:223px;top:268px;color:#0e76a8;"//样式
-                },
-            }
+                error: function(curForm, act) {
+                    mAlert("提示", "数据保存失败！")
+                }
+            })
         }
+        // processData.list ={
+        //                 "1": {
+        //                     "id": "1",
+        //                     "process_name": "开始",
+        //                     "process_to": [
+        //                         "39"
+        //                     ],
+        //                     "icon": "icon-play",
+        //                     "style": "left:534px;top:66px;color:#0e76a8;",
+        //                     "next": {
+        //                         "39": {
+        //                             "id": "39",
+        //                             "type": "启动",
+        //                             "buttonName": "启动"
+        //                         }
+        //                     }
+        //                 },
+        //                 "36": {
+        //                     "id": "36",
+        //                     "process_name": "领导审批2",
+        //                     "process_to": [
+        //                         "39",
+        //                         "38"
+        //                     ],
+        //                    "icon": "icon-star",
+        //                     "style": "left:657px;top:308px;color:#0e76a8;",
+        //                     "next": {
+        //                         "38": {
+        //                             "id": "38",
+        //                             "type": "同意",
+        //                             "buttonName": "同意"
+        //                         },
+        //                         "39": {
+        //                             "id": "39",
+        //                             "type": "退回",
+        //                             "buttonName": "退回"
+        //                         }
+        //                     }
+        //                 },
+        //                 "37": {
+        //                     "id": "37",
+        //                     "process_name": "领导审批1",
+        //                     "process_to": [
+        //                         "39",
+        //                         "38"
+        //                     ],
+        //                     "icon": "icon-star",
+        //                     "style": "left:407px;top:307px;color:#0e76a8;",
+        //                     "next": {
+        //                         "38": {
+        //                             "id": "38",
+        //                             "type": "同意",
+        //                             "buttonName": "同意"
+        //                         },
+        //                         "39": {
+        //                             "id": "39",
+        //                             "type": "退回",
+        //                             "buttonName": "退回"
+        //                         }
+        //                     }
+        //                 },
+        //                 "38": {
+        //                     "id": "38",
+        //                     "process_name": "总经理审批",
+        //                     "process_to": [
+        //                         "39",
+        //                         "2"
+        //                     ],
+        //                     "icon": "icon-star",
+        //                     "style": "left:534px;top:416px;color:#0e76a8;",
+        //                     "next": {
+        //                         "2":{"id":"2","type":"完成","buttonName":"完成"},
+        //                         "39": {
+        //                             "id": "39",
+        //                             "type": "退回",
+        //                             "buttonName": "退回"
+        //                         }
+        //                     }
+        //                 },
+        //                 "39": {
+        //                     "id": 39,
+        //                     "icon": "icon-star",
+        //                     "process_to": [
+        //                         "37",
+        //                         "36"
+        //                     ],
+        //                     "process_name": "填报",
+        //                     "style": "left:534px;top:246px;color:#0e76a8;",
+        //                     "next": {
+        //                         "36": {
+        //                             "id": "36",
+        //                             "type": "送审",
+        //                             "buttonName": "送审"
+        //                         },
+        //                         "37": {
+        //                             "id": "37",
+        //                             "type": "送审",
+        //                             "buttonName": "送审"
+        //                         }
+        //                     }
+        //                 },
+        //                 "2": {
+        //                     "id": 2,
+        //                     "icon": "icon-stop",
+        //                     "process_to": [],
+        //                     "process_name": "结束",
+        //                     "style": "left:534px;top:514px;color:#0e76a8;",
+        //                     "next": {}
+        //                 }
+        //             }
         /*创建流程设计器*/
-        var _canvas = $("#flowdesign_canvas").Flowdesign({
-            "processData": processData3
+         _canvas = $("#flowdesign_canvas").Flowdesign({
+            "processData": processData
             /*,mtAfterDrop:function(params)
              {
              //alert("连接："+params.sourceId +" -> "+ params.targetId);
@@ -299,19 +462,20 @@
                 "cmAdd": function (t) {
                     var mLeft = $("#jqContextMenu").css("left"), mTop = $("#jqContextMenu").css("top");
                     var newStep = {
-                        "flow_id": the_flow_id,
-                        id: 1891,
-                        top: 22,
-                        left: 53,
+                        //"flow_id": the_flow_id,
+                        id: getNewStepID(),
+                        //top: 22,
+                        //left: 53,
+                        process_to:[],
                         process_name: '新建步骤',
                         style: 'left:' + mLeft + ';top:' + mTop + ';'
                     };
                     if (!_canvas.addProcess(newStep))//添加
                     {
                         mAlert("添加失败");
+                    }else{
+                        processData.list[newStep.id]=newStep
                     }
-
-
                 },
                 "cmSave": function (t) {
                     var processInfo = _canvas.getProcessInfo();//连接信息
@@ -362,37 +526,17 @@
                  alert("复制成功");
                  },*/
                 "pmDelete": function (t) {
-                    if (confirm("你确定删除步骤吗？")) {
-                        var activeId = _canvas.getActiveId();//右键当前的ID
-
-                        /*重要提示 start*/
-                        alert("pmDelete这里使用ajax提交，请参考官网示例，可使用Fiddler软件抓包获取返回格式");
-                        /*重要提示 end */
-
-                        var url = "/index.php?s=/Flowdesign/delete_process.html";
-                        $.post(url, {"flow_id": the_flow_id, "process_id": activeId}, function (data) {
-                            if (data.status == 1) {
-                                //清除步骤
-                                //_canvas.delProcess(activeId);
-                                //清除连接   暂时先保存设计 + 刷新 完成
-                                var processInfo = _canvas.getProcessInfo();//连接信息
-                                var url = "/index.php?s=/Flowdesign/save_canvas.html";
-                                $.post(url, {"flow_id": the_flow_id, "process_info": processInfo}, function (data) {
-                                    location.reload();
-                                }, 'json');
-
-                            }
-                            mAlert(data.msg);
-                        }, 'json');
-                    }
+                    var activeId = _canvas.getActiveId()
+                   _canvas.delProcess(activeId)
+                   //_canvas.refresh()
                 },
                 "pmAttribute": function (t) {
                     var activeId = _canvas.getActiveId();//右键当前的ID
                     /*重要提示 start*/
-                    alert("这里要使用程序处理，并非简单html页面，如果无法显示，请建立虚拟站点");
+                    //alert("pmAttribute");
                     /*重要提示 end */
                     //var url = "/index.php?s=/Flowdesign/attribute/id/"+activeId+".html";
-                    var url = '/Public/js/flowdesign/attribute.html?id=' + activeId;
+                    var url = 'Public/js/flowdesign/attribute.html?id=' + activeId;
                     ajaxModal(url, function () {
                         //alert('加载完成执行')
                     });
@@ -425,7 +569,7 @@
                     var activeId = _canvas.getActiveId();//右键当前的ID
 
                     /*重要提示 start*/
-                    alert("这里要使用程序处理，并非简单html页面，如果无法显示，请建立虚拟站点");
+                    //alert("pmSetting");
                     /*重要提示 end */
 
                     //var url = "/index.php?s=/Flowdesign/attribute/op/style/id/"+activeId+".html";
@@ -463,16 +607,43 @@
         /*保存*/
         $("#leipi_save").bind('click', function () {
             var processInfo = _canvas.getProcessInfo();//连接信息
-
-            /*重要提示 start*/
-            alert("#leipi_save这里使用ajax提交，请参考官网示例，可使用Fiddler软件抓包获取返回格式");
-            /*重要提示 end */
-            console.log(_canvas)
-
-//            var url = "/index.php?s=/Flowdesign/save_canvas.html";
-//            $.post(url, {"flow_id": the_flow_id, "process_info": processInfo}, function (data) {
-//                mAlert(data.msg);
-//            }, 'json');
+            var process = getProcessData()
+            var workflowname=$('#workflowname').val()
+            if(!workflowname){
+                 mAlert("请输入流程名称")
+                 return
+            }
+            var data={
+                flowName:workflowname,
+                workFlowJSON:process
+            }           
+            if(window.id){
+                console.log('_id',window.id)
+                data._id=window.id
+            }
+            $.ajax({
+                url: '../api/flowManagement',
+                type: 'post',
+                data: {
+                    action: 'save',
+                    data: JSON.stringify(data)
+                },
+                dataType: 'json',
+                success: function (resobject) {
+                    if(resobject.err){
+                         mAlert(resobject.err.name+':'+resobject.err.message)
+                    }else{
+                        window.id=resobject.result.retval._id
+                        console.log(resobject)
+                        console.log('_id set',window.id)
+                        mAlert("保存成功！")
+                    }
+                   //console.log(resobject)
+                },
+                error: function () {
+                    mAlert("保存失败！")
+                }
+            });
         });
         /*清除*/
         $("#leipi_clear").bind('click', function () {
@@ -484,11 +655,84 @@
                 mAlert("清空连接失败");
             }
         });
-
+        $('#resetWF').bind('click', function () {
+            function addStepBtn(id,buttonName){
+               var btn=$(`<button style='margin-right:3px;' class="btn btn-info" type="button">${buttonName}</button>`)
+               
+               btn.on('click',()=>{
+                   var instance=fl.next({nextID:id})
+                   initView(instance)
+               })
+               $('#stepButton').append(btn) 
+            }
+            function initView(instance){
+               $('#currentStepName').text(instance.currentStepName)
+               $('#stepButton').children().remove()
+               for(var i in instance.next){               
+                    addStepBtn(i,instance.next[i].buttonName)
+               }
+            }
+           //$('#simulationModal').find('p').html('模拟运行')
+           var process = getProcessData()
+           var workflowInstance={
+               workflowJson:process,
+               _id:'123',
+               primaryID:'321',
+               workFlowName:'测试流程',
+               //currentStepName:'总部机关部门填报',
+               //currentHandlePersion:['aa'],
+               //currentStepID:1,
+               creator:'dd',
+               createTime:'2016/3/30'
+               
+           }
+           var fl=new DDworkflow(workflowInstance)
+           var instance=fl.getInstance()
+           
+           initView(instance)
+           //$('#simulationModal').modal('show')
+        })
+        /*模拟运行*/
+        $("#simulationRun").bind('click', function () {
+            function addStepBtn(id,buttonName){
+               var btn=$(`<button style='margin-right:3px;' class="btn btn-info" type="button">${buttonName}</button>`)
+               
+               btn.on('click',()=>{
+                   var instance=fl.next({nextID:id})
+                   initView(instance)
+               })
+               $('#stepButton').append(btn) 
+            }
+            function initView(instance){
+               $('#currentStepName').text(instance.currentStepName)
+               $('#stepButton').children().remove()
+               for(var i in instance.next){               
+                    addStepBtn(i,instance.next[i].buttonName)
+               }
+            }
+           //$('#simulationModal').find('p').html('模拟运行')
+           var process = getProcessData()
+           var workflowInstance={
+               workflowJson:process,
+               _id:'123',
+               primaryID:'321',
+               workFlowName:'测试流程',
+               //currentStepName:'总部机关部门填报',
+               //currentHandlePersion:['aa'],
+               //currentStepID:1,
+               creator:'dd',
+               createTime:'2016/3/30'
+               
+           }
+           var fl=new DDworkflow(workflowInstance)
+           var instance=fl.getInstance()
+           
+           initView(instance)
+           $('#simulationModal').modal('show')
+        });
 
     });
-
-
-</script>
+    </script>
 </body>
+
 </html>

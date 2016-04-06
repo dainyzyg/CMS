@@ -3,7 +3,7 @@
  */
 Ext.define("extjsapp.menuTopBar", {
     xtype: 'extjsapp.menuTopBar',
-    exportForm(){
+    exportForm() {
         showFormJson = this.showFormJson
         showFormJson.dropFormID = this.dropFormID
         var fieldMap = Ext.getCmp(this.dropFormID).extraData.fieldMap
@@ -18,7 +18,7 @@ Ext.define("extjsapp.menuTopBar", {
             html: '<iframe onload="showFormJson(this)" frameborder="0" src="FormCodeShow.html" width=100% height=100%/>'
         }).show()
     },
-    showFormJson(e){
+    showFormJson(e) {
         var form = Ext.getCmp(showFormJson.dropFormID)
         var fieldMap = form.extraData.fieldMap
         var formJson = []
@@ -37,21 +37,65 @@ Ext.define("extjsapp.menuTopBar", {
             mode: "application/ld+json"
         })
     },
-    constructor (cf){
+    getJson() {
+        var form = Ext.getCmp(this.dropFormID)
+        var fieldMap = form.extraData.fieldMap
+        var formJson = []
+        for (var item of form.items.items) {
+            formJson.push(fieldMap.get(item.id))
+        }
+        return formJson
+    },
+    saveForm(name) {
+        var data = {
+            "formName": name,
+            "data": this.getJson()
+        }
+        Ext.Ajax.request({
+            //async: false,
+            url: '../api/formManagement',
+            params: {
+                data: JSON.stringify(data),
+                action: 'save'
+            },
+            method: 'POST',
+            success: function(response, opts) {
+                var data = Ext.decode(response.responseText);
+                alert(response.responseText)
+            },
+            failture: function(curForm, act) {
+                Ext.Msg.alert("提示", "数据保存失败！");
+            }
+        });
+    },
+    constructor(cf) {
         var that = this
         Object.assign(this, cf)
         that.items = [
             {
                 xtype: 'button',
                 text: '保存',
-                icon: "extjs/icon/page_save.png"
+                icon: "extjs/icon/page_save.png",
+                handler() {
+                    Ext.MessageBox.prompt('表单名称', '请输入表单名称：',
+                        (btn, text) => {
+                            if (btn == 'ok') {
+                                if (!text) {
+                                    this.handler()
+                                    return
+                                }
+                                that.saveForm(text)
+                            }
+                        },
+                        this, false, '')
+                }
             }, '-',
             {
                 xtype: 'button',
                 text: '导出',
                 icon: "extjs/icon/disk_download.png",
-                handler(){
-                    that.exportForm()
+                handler: () => {
+                    this.exportForm()
                 }
             },
             {

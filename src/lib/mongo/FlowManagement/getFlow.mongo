@@ -1,0 +1,5 @@
+function getFlow(args) {
+    var data = {}
+    data = db.flow.findOne({_id: ObjectId(args._id)})
+    return data
+}

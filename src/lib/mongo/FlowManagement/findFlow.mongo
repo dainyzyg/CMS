@@ -1,0 +1,17 @@
+function findFlowData(args) {
+    if (args.findField) {
+        var result = db.flow.find({
+            flowName: {
+                $regex: args.findField,
+                $options: "$i"
+            }
+        }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({createTime: 1})
+    }
+    else {
+        var result = db.flow.find().skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({createTime: 1})
+    }
+    var data = {}
+    data.data = result.toArray()
+    data.totalCount = result.count()
+    return data
+}

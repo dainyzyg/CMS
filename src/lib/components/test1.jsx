@@ -1,20 +1,12 @@
 import React from 'react'
+import Formtable from './views/formManagement.jsx'
+import './../../css/fmLayout.css'
 
 class Test1 extends React.Component {
     render() {
-        const events = [
-            { id: 0, title: 'essay due' },
-            { id: 1, title: 'test1' }
-        ]
-
         return (
-            <div className='component'>
-                <h2>test111111</h2>
-                <ul>
-                    {events.map(event => (
-                        <li key={event.id}>{event.title}</li>
-                    )) }
-                </ul>
+            <div className='ant-layout-content'>
+                <Formtable className="ant-layout-table"/>
             </div>
         )
     }

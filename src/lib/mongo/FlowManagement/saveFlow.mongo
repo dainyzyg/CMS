@@ -1,0 +1,26 @@
+function saveFlow(args) {
+    var mydate = new Date();
+    if (!args._id) {
+        var writeResult = {}
+        var a = new ObjectId()
+        args._id = a
+        args.createTime = mydate;
+        writeResult = db.flow.insert(args)
+        return {
+            'WriteResult': JSON.parse(writeResult.tojson()),
+            '_id':args._id
+        }
+    }
+    else {
+        var writeResult = {}
+        args._id = ObjectId(args._id)
+        writeResult = db.flow.update({_id:args._id},{$set:args})
+        return {
+            'WriteResult': JSON.parse(writeResult.tojson()),
+            '_id': args._id
+        }
+    }
+}
+
+
+

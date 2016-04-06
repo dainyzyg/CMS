@@ -1,9 +1,9 @@
 import React from 'react'
 import { render } from 'react-dom'
 import {browserHistory, Router, Route, Link} from 'react-router'
-import HomePage from './lib/components/views/HomePage'
+import HomePage from './lib/components/views/frontpageIndex.jsx'
 
-const routes = ['test1', 'test2']
+const routes = ['formManagement', 'flowTable', 'iframeComponent'];
 
 // const childRoutes = routes.map((name) => {
 //     return  require(`./views/${name}`)
@@ -11,12 +11,12 @@ const routes = ['test1', 'test2']
 
 
 const childRoutes = routes.map((name) => {
-    var pathname = './views/' + name
+    var pathname = './views/' + name;
     return {
         path: name,
         getComponent: require(`./views/${name}`)
     }
-})
+});
 
 const rootRoute = {
     //onEnter: App.onRouteEntry,
@@ -27,10 +27,10 @@ const rootRoute = {
         component: HomePage,
         childRoutes: childRoutes
     }]
-}
+};
 
 render(
     <Router history={browserHistory} routes={rootRoute} />,
     document.getElementById('react-content')
-)
+);
 

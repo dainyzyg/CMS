@@ -3,7 +3,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import { Menu, Icon } from 'antd'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import './../../css/homePageTransition.css'
+import './../../../css/homePageTransition.css'
 
 const SubMenu = Menu.SubMenu
 const Sider = React.createClass({
@@ -89,7 +89,7 @@ const HomePage = React.createClass({
                         transitionEnterTimeout={500}
                         transitionLeaveTimeout={500}
                         >
-                        {React.cloneElement(this.props.children, {
+                        {React.cloneElement(this.props.children||(<div className='component'>个人首页</div>), {
                             key: this.props.location.pathname
                         }) }
                     </ReactCSSTransitionGroup>

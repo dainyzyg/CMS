@@ -3,7 +3,6 @@ import React from 'react';
 import { Button, Table, Icon, Col, Row, Input } from 'antd';
 import classNames from 'classnames';
 import reqwest from 'reqwest';
-
 const InputGroup = Input.Group;
 const SearchInput = React.createClass({
     getInitialState() {
@@ -14,12 +13,12 @@ const SearchInput = React.createClass({
     },
     handleInputChange(e) {
         this.setState({
-            value: e.target.value
+            value: e.target.value,
         });
     },
     handleFocusBlur(e) {
         this.setState({
-            focus: e.target === document.activeElement
+            focus: e.target === document.activeElement,
         });
     },
     handleSearch() {
@@ -32,11 +31,11 @@ const SearchInput = React.createClass({
     render() {
         const btnCls = classNames({
             'ant-search-btn': true,
-            'ant-search-btn-noempty': !!this.state.value.trim()
+            'ant-search-btn-noempty': !!this.state.value.trim(),
         });
         const searchCls = classNames({
             'ant-search-input': true,
-            'ant-search-input-focus': this.state.focus
+            'ant-search-input-focus': this.state.focus,
         });
         return (
             <InputGroup className={searchCls} style={this.props.style}>
@@ -52,26 +51,26 @@ const SearchInput = React.createClass({
         );
     }
 });
-const Tablecomponent = React.createClass({
+const Flowcomponent = React.createClass({
     getInitialState() {
         return {
             data: [],
             pagination: {},
-            loading: false
+            loading: false,
         };
     },
-    params: {
-        limit: 10,
-        index: 1,
-        sortField: '',
-        sortOrder: '',
-        findField: ''
+    params:{
+        limit:10,
+        index:1,
+        sortField:'',
+        sortOrder:'',
+        findField:''
     },
     handleTableChange(pagination, filters, sorter) {
         const pager = this.state.pagination;
-        this.currentPage = pagination.current;
-        this.params.limit = pagination.pageSize;
-        this.params.index = (pagination.current - 1) * pagination.pageSize + 1,
+        this.currentPage=pagination.current;
+        this.params.limit=pagination.pageSize;
+        this.params.index= (pagination.current - 1) * pagination.pageSize + 1,
             pager.current = pagination.current;
         this.setState({
             pagination: pager
@@ -90,10 +89,10 @@ const Tablecomponent = React.createClass({
         this.fetch();
     },
     onSearch(e){
-        console.log('search:', e);
-        this.params.findField = e;
-        this.params.index = 1;
-        this.params.limit = 10;
+        console.log('search:',e);
+        this.params.findField=e;
+        this.params.index=1;
+        this.params.limit=10;
         this.fetch();
     },
 //fetch（）获取数据
@@ -101,25 +100,25 @@ const Tablecomponent = React.createClass({
     {
         this.setState({loading: true});
         reqwest({
-            url: '../api/formManagement',
+            url: '../api/flowManagement',
             method: 'post',
             data: {
                 action: 'getList',
                 index: this.params.index,
                 limit: this.params.limit,
-                sortField: this.params.sortField,
-                sortOrder: this.params.sortOrder,
-                findField: this.params.findField
+                sortField:this.params.sortField,
+                sortOrder:this.params.sortOrder,
+                findField:this.params.findField
             },
             type: 'json',
             success: (result) => {
-                console.log('result:', result);
+                console.log('result:',result);
                 const pagination = this.state.pagination;
                 pagination.total = result.result.retval.totalCount;
                 this.setState({
                     loading: false,
                     data: result.result.retval.data,
-                    pagination
+                    pagination,
                 });
             }
         });
@@ -129,42 +128,38 @@ const Tablecomponent = React.createClass({
     },
     render() {
         //var columns=this.props.columns;
-        for (var column of this.props.columns) {
-            if (column.render) {
-                column.render = column.render.bind(this)
+        for(var column of this.props.columns){
+            if(column.render)
+            {
+                column.render=column.render.bind(this)
             }
+
         }
         //this.props.columns[5].render=this.props.columns[5].render.bind(this)
 
         return (
             <div>
-                <Row type="flex" justify="center">
-                    <Col >
-                        <h1>表单配置</h1>
+                <Row type="flex" justify="center" align="top">
+                    <Col span="">
+                        <h1>流程管理</h1>
                     </Col>
                 </Row>
                 <Row style={{marginBottom:5}}>
-                    <Col span="8" offset="1">
-                        <Button type="primary" onClick={this.props.onAdd}
-                                style={{float:'left',width:100}}>新增编辑器 </Button>
+                    <Col span="8">
+                        <Button type="primary" onClick={this.props.onAdd}>新增流程</Button>
                     </Col>
-                    <Col span="6" offset="8">
-                        <SearchInput placeholder="请输入查询内容" onSearch={this.onSearch}
-                                     style={{ float:'right'}}/>
+                    <Col span="4" offset="12">
+                        <SearchInput placeholder="请输入查询内容" onSearch={this.onSearch} style={{ width: 200,float:'right' }}/>
                     </Col>
                 </Row>
-                <Row type="flex" justify="center">
-                    <Col span="22">
-                        <Table columns={this.props.columns}
-                               dataSource={this.state.data}
-                               pagination={this.state.pagination}
-                               loading={this.state.loading}
-                               onChange={this.handleTableChange}
-                               bordered/>
-                    </Col>
-                </Row>
+                <Table columns={this.props.columns}
+                       dataSource={this.state.data}
+                       pagination={this.state.pagination}
+                       loading={this.state.loading}
+                       onChange={this.handleTableChange}
+                       bordered/>
             </div>
         );
     }
 });
-export default Tablecomponent;
+export default Flowcomponent;
