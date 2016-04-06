@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import {browserHistory, Router, Route, Link} from 'react-router'
 import HomePage from './lib/components/views/frontpageIndex.jsx'
 
-const routes = ['formManagement', 'flowTable', 'iframeAddeditor', 'iframeEditcontent'];
+const routes = ['formManagement', 'flowTable', 'iframeComponent'];
 
 // const childRoutes = routes.map((name) => {
 //     return  require(`./views/${name}`)

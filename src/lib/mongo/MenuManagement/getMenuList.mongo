@@ -1,0 +1,21 @@
+/**
+ * Created by Baggio on 2016/3/23.
+ */
+ function getList(args) {
+ var result
+     if (args.findField) {
+          result = db.form.find({
+             formName: {
+                 $regex: args.findField,
+                 $options: "$i"
+             }
+         }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({createTime: 1})
+     }
+     else {
+          result = db.menu.find({path: args.treeNode }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({createTime: 1})
+     }
+     var data = {}
+     data.data = result.toArray()
+   data.totalCount = result.count()
+     return data
+    }
