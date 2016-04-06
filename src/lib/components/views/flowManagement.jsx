@@ -64,11 +64,19 @@ const Flowtable = React.createClass({
     componentDidMount() {
     },
     addEditor() {
-        browserHistory.push('/router/iframeAddeditor')
+        var urlObject = {
+            pathname: '/router/iframeComponent',
+            query: {url: `../flowdesign/index.html`}
+        };
+        browserHistory.push(urlObject)
     },
-    editContent(ed)
+    editContent(record)
     {
-        browserHistory.push('/router/iframeEditcontent?id=' + ed.record._id);
+        var urlObject = {
+            pathname: '/router/iframeComponent',
+            query: {url: `../flowdesign/index.html?id=${record._id}`}
+        };
+        browserHistory.push(urlObject)
     },
     deleteConfirm(de)
     {
