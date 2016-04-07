@@ -48,7 +48,7 @@ const Flowtable = React.createClass({
                             <span>
                             <a href="#">发起</a>
                 <span className="ant-divider"></span>
-                 <a href="#" onClick={that.editContent.bind(that,bindObject)}>编辑</a>
+                 <a href="#" onClick={that.editContent.bind(that,record)}>编辑</a>
                  <span className="ant-divider"></span>
                  <Popconfirm placement="left" title="确定要删除这个流程吗？" onConfirm={that.deleteConfirm.bind(that,bindObject)}
                              onCancel={that.deleteCancel}>
