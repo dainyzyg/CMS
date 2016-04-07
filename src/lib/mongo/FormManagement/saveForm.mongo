@@ -3,12 +3,13 @@ function saveForm(args) {
     if (!args._id) {
         var writeResult = {}
         var a = new ObjectId()
+        args._id = a
         args.createTime = mydate;
         args.lastmodifyTime = mydate;
         writeResult = db.form.insert(args)
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
-            '_id': a
+            '_id': args._id
         }
     }
     else {
