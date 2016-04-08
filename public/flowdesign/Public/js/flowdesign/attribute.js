@@ -256,8 +256,8 @@ function fnSetCondition() {
 
 //-----条件设置--end----------------
 function initData(params) {
-    var activeId = parent._canvas.getActiveId()
-    var action = parent.processData.list[activeId]
+    var activeId = window._canvas.getActiveId()
+    var action = window.processData.list[activeId]
     $('#process_name').val(action.process_name)
     bindActions(action)
 }
@@ -266,7 +266,7 @@ function bindActions(action) {
     if (action.next != action.next) {
         //debugger
         action.next.forEach((p) => {
-            var action = parent.processData.list[p.id]
+            var action = window.processData.list[p.id]
             var tr = $('<tr class="actions"></tr>>')
             var td1 = $(`<td id='id'>${p.id}</td>`)
             var td2 = $(`<td>${action.process_name}</td>`)
@@ -278,10 +278,10 @@ function bindActions(action) {
         })
     } else {
         //console.log(parent.processData)
-        var activeId = parent._canvas.getActiveId()
-        processInfo = JSON.parse(parent._canvas.getProcessInfo())
+        var activeId = window._canvas.getActiveId()
+        processInfo = JSON.parse(window._canvas.getProcessInfo())
         processInfo[activeId].process_to.forEach((p) => {
-            var nextaction = parent.processData.list[p]
+            var nextaction = window.processData.list[p]
             var next = action.next || {}
             var nextOne = next[p] || {}
             var tr = $('<tr class="actions"></tr>>')
@@ -306,8 +306,8 @@ $(function() {
     })
     //确定保存
     $('#attributeOK').on('click', function() {
-        var activeId = parent._canvas.getActiveId()
-        var active = parent.processData.list[activeId]
+        var activeId = window._canvas.getActiveId()
+        var active = window.processData.list[activeId]
         var next = {}
         $('tr.actions').each((inedex, element) => {
             next[$(element).find('#id').text()] = {
@@ -323,7 +323,7 @@ $(function() {
         var activeElement = $(`div.process-step[process_id="${activeId}"]`)
         activeElement.html(activeElement.children())
         activeElement.append(` ${active.process_name}`)
-        parent._canvas.makeConnect()
+        window._canvas.makeConnect()
         $("#attributeModal").modal("hide")
     });
     //步骤类型

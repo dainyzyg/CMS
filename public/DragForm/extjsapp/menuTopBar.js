@@ -47,9 +47,15 @@ Ext.define("extjsapp.menuTopBar", {
         return formJson
     },
     saveForm(name) {
+        var form = Ext.getCmp(this.dropFormID)
+        var id = form.extraData.id
+        form.extraData.formName = name
         var data = {
             "formName": name,
             "data": this.getJson()
+        }
+        if (id) {
+            data._id = id
         }
         Ext.Ajax.request({
             //async: false,
@@ -60,8 +66,16 @@ Ext.define("extjsapp.menuTopBar", {
             },
             method: 'POST',
             success: function(response, opts) {
-                var data = Ext.decode(response.responseText);
-                alert(response.responseText)
+                var resJson = Ext.decode(response.responseText)
+                var data = Ext.decode(response.responseText)
+                //alert(JSON.stringify(data))
+                if (data.err) {
+                    Ext.Msg.alert(data.err.name, data.err.message)
+                    return
+                }
+                console.log(data.result)
+                form.extraData.id = data.result.retval._id
+                Ext.Msg.alert("提示", "数据保存成功！");
             },
             failture: function(curForm, act) {
                 Ext.Msg.alert("提示", "数据保存失败！");
@@ -77,6 +91,8 @@ Ext.define("extjsapp.menuTopBar", {
                 text: '保存',
                 icon: "extjs/icon/page_save.png",
                 handler() {
+                    var form = Ext.getCmp(that.dropFormID)
+                    var formName = form.extraData.formName || ''
                     Ext.MessageBox.prompt('表单名称', '请输入表单名称：',
                         (btn, text) => {
                             if (btn == 'ok') {
@@ -87,7 +103,7 @@ Ext.define("extjsapp.menuTopBar", {
                                 that.saveForm(text)
                             }
                         },
-                        this, false, '')
+                        this, false, formName)
                 }
             }, '-',
             {
