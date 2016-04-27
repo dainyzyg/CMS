@@ -1,21 +1,22 @@
 function saveForm(args) {
     var mydate = new Date();
-    var dates = ( mydate.getFullYear() + "/" + (mydate.getMonth() + 1) + "/" + mydate.getDate() + " " +
-    mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds())
     if (!args._id) {
         var writeResult = {}
         var a = new ObjectId()
-        args.createTime = dates;
-        args.lastmodifyTime = dates;
+        args._id = a
+        args.createTime = mydate;
+        args.lastmodifyTime = mydate;
         writeResult = db.form.insert(args)
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
-            '_id': a
+            '_id': args._id
         }
     }
     else {
         var writeResult = {}
-        writeResult = db.form.update(args)
+        args._id = ObjectId(args._id)
+        args.lastmodifyTime = mydate
+        writeResult = db.form.update({_id:args._id},{$set:args})
         return {
             'WriteResult': JSON.parse(writeResult.tojson()),
             '_id': args._id

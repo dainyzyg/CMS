@@ -314,7 +314,25 @@
                 },
             }
         }
-        processData={}
+        workflow={}
+        processData={
+            list:{
+                "1":{
+                    id:"1",
+                    process_name:"开始",
+                    icon: "icon-play",
+                    process_to:[],
+                    style: "left:300px;top:66px;color:#0e76a8;"
+                },
+                "2":{
+                    id:"2",
+                    process_name:"结束",
+                    icon: "icon-stop",
+                    process_to:[],
+                    style: "left:300px;top:500px;color:#0e76a8;"
+                }
+            }
+        }
         var requestParams = GetRequest()
         if (requestParams['id']) {
             $.ajax({
@@ -333,7 +351,10 @@
                         return
                     }
                     $('#workflowname').val(resobject.result.retval && resobject.result.retval.flowName)
-                    processData.list = resobject.result.retval && resobject.result.retval.workFlowJSON
+                    workflow.id = requestParams['id']
+                    if(resobject.result.retval && resobject.result.retval.workFlowJSON){
+                        processData.list = resobject.result.retval.workFlowJSON
+                }
                 },
                 error: function(curForm, act) {
                     mAlert("提示", "数据保存失败！")
@@ -617,9 +638,9 @@
                 flowName:workflowname,
                 workFlowJSON:process
             }           
-            if(window.id){
-                console.log('_id',window.id)
-                data._id=window.id
+            if(workflow.id){
+                console.log('_id',workflow.id)
+                data._id=workflow.id
             }
             $.ajax({
                 url: '../api/flowManagement',
@@ -633,9 +654,9 @@
                     if(resobject.err){
                          mAlert(resobject.err.name+':'+resobject.err.message)
                     }else{
-                        window.id=resobject.result.retval._id
+                        workflow.id=resobject.result.retval._id
                         console.log(resobject)
-                        console.log('_id set',window.id)
+                        console.log('_id set',workflow.id)
                         mAlert("保存成功！")
                     }
                    //console.log(resobject)

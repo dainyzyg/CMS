@@ -52,7 +52,7 @@ const Formtable = React.createClass({
                         <span>
                  <a href="#" onClick={that.editContent.bind(that,record)}>编辑</a>
                  <span className="ant-divider"></span>
-                 <Popconfirm placement="left" title="确定要删除这个流程吗？" onConfirm={that.deleteConfirm.bind(that,record)}
+                 <Popconfirm placement="left" title="确定要删除这个流程吗？" onConfirm={that.deleteConfirm.bind(that,bindObject)}
                              onCancel={that.deleteCancel}>
                      <a href="#">删除</a>
                  </Popconfirm>
@@ -80,21 +80,21 @@ const Formtable = React.createClass({
         };
         browserHistory.push(urlObject)
     },
-    deleteConfirm(record)
+    deleteConfirm(de)
     {
         reqwest({
             url: '../api/formManagement',
             method: 'post',
             data: {
                 action: 'deleteConfirm',
-                _id: record._id
+                _id: de.record._id
             },
             type: 'json',
             success: (result) => {
                 //console.log('component',this.component)
                 //console.log('pagination',this.component.currentPage)
-                var currentPage = this.currentPage || 1;
-                this.fetch({
+                var currentPage = de.component.currentPage || 1;
+                de.component.fetch({
                     limit: 10,
                     index: (currentPage - 1) * 10 + 1
                 });

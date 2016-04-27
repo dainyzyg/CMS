@@ -34,6 +34,7 @@ Ext.define("extjsapp.dropForm", {
         }
     },
     extraData: {
+        id: '',
         selectedItem: null,
         fieldMap: new Map(),
         actionDiv: null,
@@ -310,11 +311,20 @@ Ext.define("extjsapp.dropForm", {
                         return
                     }
                     that.config.items = data.result.retval && data.result.retval.data
+                    //console.log(data.result.retval)
+                    that.extraData.id = data.result.retval && data.result.retval._id
+                    that.extraData.formName = data.result.retval && data.result.retval.formName
+                    that.initMap()
                 },
                 failture: function(curForm, act) {
                     Ext.Msg.alert("提示", "数据保存失败！")
                 }
             })
+        }
+    },
+    initMap() {
+        for (var item of this.config.items) {
+            this.extraData.fieldMap.set(item.id, item)
         }
     },
     constructor: function(cf) {
