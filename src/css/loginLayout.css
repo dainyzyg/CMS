@@ -1,0 +1,34 @@
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+    background-image: url("../images/login-background.jpg");
+}
+
+.header{
+    align-self: center;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
+    align-items: stretch;
+    background: #ffffff;
+    width: 450px;
+    height:320px;
+    padding: 10px 30px 10px 30px;
+}
+
+.logo-image{
+    width: 126px;
+    height: 40px;
+    background: url("../images/ant-logo.png") center no-repeat;
+    background-size: 57px 30px;
+}
+
+.logo-text{
+    font-size: 18px;
+    margin-top: 10px;
+}
