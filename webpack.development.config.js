@@ -17,7 +17,7 @@ fileList.forEach((item, index, array) => {
 })
 
 var deps = [
-    { name: 'react', path: 'react/dist/react.min.js' },
+    {name: 'react', path: 'react/dist/react.min.js'},
     //{name: 'react-dom', path: 'react-dom/dist/react-dom.js'}
 ]
 
@@ -69,21 +69,22 @@ var config = {
             {
                 test: /\.css$/,
                 loader: 'style!css'
-            }
+            },
+            {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'}
         ],
         noParse: []
     },
     plugins: [
-        function() {
-            this.plugin("done", function(stats) {
-                var filesMapping = {}
-                stats.toJson().assets.forEach((item, index, array) => {
-                    filesMapping[item.chunkNames[0]] = item.name
-                })
-                require("fs").writeFileSync(
-                    path.join(__dirname, "public/dist", "filesMapping.json"),
-                    JSON.stringify(filesMapping))
-            }
+        function () {
+            this.plugin("done", function (stats) {
+                    var filesMapping = {}
+                    stats.toJson().assets.forEach((item, index, array) => {
+                        filesMapping[item.chunkNames[0]] = item.name
+                    })
+                    require("fs").writeFileSync(
+                        path.join(__dirname, "public/dist", "filesMapping.json"),
+                        JSON.stringify(filesMapping))
+                }
             )
         },
         new webpack.optimize.OccurenceOrderPlugin(),
@@ -115,7 +116,7 @@ var config = {
     //    }
     //}
 }
-deps.forEach(function(dep) {
+deps.forEach(function (dep) {
     var depPath = path.resolve(node_modules, dep.path)
     //config.resolve.alias[dep.name] = depPath
     //config.module.noParse.push(depPath)
