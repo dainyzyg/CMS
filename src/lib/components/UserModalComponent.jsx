@@ -1,17 +1,17 @@
 /**
- * Created by Baggio on 2016/3/30.
+ * Created by Baggio on 2016/5/9.
  */
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { Modal, Button,Col, Row, Input,Form } from 'antd';
-import FormComponent from './FormComponent.jsx';
-var ModalComponent  = React.createClass({
+import UserFormComponent from './UserFormComponent.jsx';
+var UserModalComponent  = React.createClass({
     componentWillReceiveProps: function(nextProps) {
         console.log('nextProps.record',nextProps.record)
         this.setState({
             visible: nextProps.visible,
             record:nextProps.record,
-        title:nextProps.modalTitle
+            title:nextProps.modalTitle
         });
     },
     getInitialState() {
@@ -47,6 +47,7 @@ var ModalComponent  = React.createClass({
     },
     save(e){
         console.log('在Modal中打印表单值',e);
+        console.log('this.props',this.props);
         this.props.saveForm(e);
         this.handleCancel();
     },
@@ -61,7 +62,7 @@ var ModalComponent  = React.createClass({
                        footer={[
             <Button key="back" type="ghost" size="large" onClick={this.handleCancel}>返 回</Button>
           ]}>
-                    <FormComponent save={this.save} record={this.state.record}/>
+                    <UserFormComponent save={this.save} record={this.state.record}/>
                 </Modal>
 
 
@@ -70,4 +71,4 @@ var ModalComponent  = React.createClass({
     }
 });
 
-export default ModalComponent;
+export default UserModalComponent;

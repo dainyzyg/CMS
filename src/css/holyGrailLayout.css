@@ -1,0 +1,48 @@
+/**
+ * Created by Baggio on 2016/4/27.
+ */
+.background {
+    position: fixed;
+    top: 5px;
+    bottom: 25px;
+    left: 5px;
+    right: 0px;
+    display: flex;
+    background-color: #ECECEC;
+}
+.holyGrailLayout {
+    /* 上下布局 */
+    display: flex;
+    justify-content: flex-start;
+
+    flex: 1;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.title {
+    /* 标题行在最上面 */
+    flex-grow: 0.1;
+
+}
+
+.center {
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
+    flex-direction: row;
+
+}
+
+.navigator {
+    /* 导航放到最左边 */
+
+    flex-grow: 0.3;
+
+}
+
+.content {
+    flex-grow: 0.7;
+
+}
+

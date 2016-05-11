@@ -12,7 +12,6 @@ const MenuTableComponent = React.createClass({
     getInitialState() {
         return {
             data: [],
-            pagination: {},
             loading: false,
         };
     },
@@ -24,11 +23,13 @@ const MenuTableComponent = React.createClass({
        // console.log('111111',data.then)
 
         return (
-            <Table columns={this.props.columns}
+            <Table
+                columns={this.props.columns}
                    dataSource={this.props.data}
-                   pagination={this.state.pagination}
+                   size="middle"
+                   pagination={this.props.pagination}
                    loading={this.state.loading}
-                   onChange={this.handleTableChange} />
+                   onChange={this.props.onChange} />
         );
     }
 });

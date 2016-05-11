@@ -1,0 +1,8 @@
+/**
+ * Created by Baggio on 2016/4/27.
+ */
+function getForm() {
+    var data = {}
+    data = db.OU.find().toArray()
+    return data
+}

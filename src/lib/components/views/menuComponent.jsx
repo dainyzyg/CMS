@@ -211,7 +211,7 @@ var MenuComponent = React.createClass({
                     </Col>
                 </Row>
                 <Button type="primary" onClick={this.showModal}>新增菜单</Button>
-                <ModalComponent saveForm={this.saveForm} visible={this.state.visible} record={this.state.record}/>
+                <ModalComponent saveForm={this.saveForm} visible={this.state.visible} record={this.state.record} modalTitle='编辑菜单'/>
                 <BreadcrumbComponent handleClick={this.handleBreadcrumbClick} path={this.state.path}/>
                 <MenuTableComponent data={this.state.data} columns={this.columns}/>
 

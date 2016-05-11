@@ -1,0 +1,15 @@
+/**
+ * Created by Baggio on 2016/5/10.
+ */
+ function insertUserData(args) {
+ if (!args._id) {
+ args._id=new ObjectId()
+ args.OUId=ObjectId(args.OUId)
+     db.users.insert(args)
+     }
+ else{
+ args._id = ObjectId(args._id)
+ args.OUId=ObjectId(args.OUId)
+ db.users.update({_id: args._id}, {$set: args})
+ }
+ }

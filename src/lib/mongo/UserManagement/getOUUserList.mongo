@@ -1,0 +1,20 @@
+/**
+ * Created by Baggio on 2016/4/27.
+ */
+ function getList(args) {
+  var result=[]
+  var ou=db.OU.findOne({_id:ObjectId(args.OUID)})
+  var OUname=ou.OUName
+  var OUPath=ou.path+ou.OUName
+  var totalcount=db.users.find({OUId: ObjectId(args.OUID) }).count()
+  result = db.users.find({OUId: ObjectId(args.OUID) }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({createTime: 1}).toArray()
+           result.forEach(function (item) {
+                      item.OUName=OUPath
+                      item.key=item._id
+                      })
+      var data = {}
+      data.data = result
+    data.totalCount = totalcount
+    data.OUName=OUname
+      return data
+     }

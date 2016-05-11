@@ -1,0 +1,6 @@
+/**
+ * Created by Baggio on 2016/5/11.
+ */
+ function deleteUserData(args) {
+     db.users.remove({_id:ObjectId(args._id)})
+ }
