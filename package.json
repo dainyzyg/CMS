@@ -17,6 +17,7 @@
     "debug": "~2.2.0",
     "ejs": "~2.3.3",
     "express": "~4.13.1",
+    "file-loader": "^0.8.5",
     "mongodb": "^2.1.7",
     "morgan": "~1.6.1",
     "react": "^0.14.7",
@@ -26,6 +27,7 @@
     "reqwest": "^2.0.5",
     "serve-favicon": "~2.3.0",
     "supervisor": "^0.9.1",
+    "url-loader": "^0.5.7",
     "webpack": "^1.12.13",
     "webpack-dev-server": "^1.14.1"
   },

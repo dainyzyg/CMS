@@ -1,0 +1,17 @@
+function verify(args){
+    var user=db.users.findOne({userName:args.userName});
+    if(!user){
+        var message="notFind";
+        return message;
+        }
+    else if(user.passWord==args.passWord)
+        {
+        var message="success";
+        return message;
+        }
+    else
+        {
+        var message="notMatch";
+        return message;
+        }
+    }
