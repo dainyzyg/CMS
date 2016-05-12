@@ -10,7 +10,8 @@ var MenuComponent = React.createClass({
     getInitialState() {
         return {path: '菜单/',
             visible:false,
-            record:{}
+            record:{},
+            pagination:{}
 
         }
 
@@ -42,7 +43,10 @@ var MenuComponent = React.createClass({
     },
     handleTableChange(pagination, filters, sorter) {
         const pager = this.state.pagination;
-        pager.current = pagination.current;
+        this.currentPage = pagination.current;
+        this.params.limit = pagination.pageSize;
+        this.params.index = (pagination.current - 1) * pagination.pageSize + 1,
+            pager.current = pagination.current;
         this.setState({
             pagination: pager
         });
@@ -51,7 +55,7 @@ var MenuComponent = React.createClass({
                 params[key] = filters[key];
             }
         }
-        this.fetch(params);
+        this.fetch(this.params);
     },
     fetch(params = {}) {
         reqwest({
@@ -69,11 +73,10 @@ var MenuComponent = React.createClass({
             type: 'json',
             success: (result) => {
                 const pagination = this.state.pagination;
-                //pagination.total = result.result.retval.totalCount;
+                pagination.total = result.result.retval.totalCount;
                 this.setState({
                     loading: false,
                     visible: false,
-                    total: result.result.retval.totalCount,
                     data: result.result.retval.data,
                     pagination,
                 })
@@ -87,29 +90,39 @@ var MenuComponent = React.createClass({
     columns: [
         {
             title: '序号',
-            dataIndex: 'showOrder'
+            dataIndex: 'showOrder',
+            key:'showOrder'
         },
         {
             title: '表单ID',
             dataIndex: '_id',
+        key:'_id',
             width: 120
         }, {
             title: '菜单名称',
             dataIndex: 'menuName',
+            key:'menuName',
             render(text, record) {
                 return <a href="javascript:void(0)" onClick={this.clickMenuName.bind(this,record)}>{text}</a>;
             }
         }, {
             title: '菜单说明',
-            dataIndex: 'description'
+            dataIndex: 'description',
+            key:'description',
         }, {
+            title: '菜单地址',
+            dataIndex: 'functionURL',
+            key:'functionURL'
+        },{
             title: '创建时间',
             dataIndex: 'createTime',
+            key:'createTime',
             width: 100
         },
             {
             title: '操作',
             dataIndex: 'formOperation',
+                key:'formOperation',
             width: 100,
             render(text, record) {
                 return (
@@ -213,7 +226,7 @@ var MenuComponent = React.createClass({
                 <Button type="primary" onClick={this.showModal}>新增菜单</Button>
                 <ModalComponent saveForm={this.saveForm} visible={this.state.visible} record={this.state.record} modalTitle='编辑菜单'/>
                 <BreadcrumbComponent handleClick={this.handleBreadcrumbClick} path={this.state.path}/>
-                <MenuTableComponent data={this.state.data} columns={this.columns}/>
+                <MenuTableComponent data={this.state.data} onChange={this.handleTableChange} pagination={this.state.pagination} columns={this.columns}/>
 
 
             </div>

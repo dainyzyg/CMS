@@ -10,34 +10,24 @@ let FormComponent = React.createClass({
         this.setState({
             record: nextProps.record
         });
-        //this.nextProps.form.setFieldsValue({
-        //    description: this.nextProps.record.description,
-        //    menuName: this.nextProps.record.menuName,
-        //    showOrder: this.nextProps.record.showOrder,
-        //    functionURL: this.nextProps.record.functionURL,
-        //    _id: this.nextProps.record._id,
-        //});
+
     },
     componentDidMount() {
-        //console.log('form this',this.props)
-        //console.log('form record',this.props.record)
-        if (this.props.record) {
-            this.props.form.setFieldsValue({
-                    description: this.props.record.description,
-                    menuName: this.props.record.menuName,
-                    showOrder: this.props.record.showOrder,
-                    functionURL: this.props.record.functionURL,
-                    _id: this.props.record._id,
-                }
-            )
-            console.log('this.props.form',this.props.form.getFieldsValue())
-        }
+        
     },
     handleSubmit(e) {
         e.preventDefault();
+        var formItem={
+            _id:this.props.record._id,
+            description:this.props.form.getFieldsValue().description,
+            menuName:this.props.form.getFieldsValue().menuName,
+            showOrder:this.props.form.getFieldsValue().showOrder,
+            functionURL:this.props.form.getFieldsValue().functionURL
+        };
+        console.log('formItem',formItem)
+        this.props.save(formItem);
 
-        console.log('this.props.form', this.props.form.getFieldsValue());
-    this.props.save(this.props.form.getFieldsValue());
+
 },
 
 render()
@@ -61,13 +51,13 @@ render()
                     {...formItemLayout}
                     label="菜单名称：">
                     <Input placeholder="请输入菜单名称"
-                        {...getFieldProps('menuName')} />
+                        {...getFieldProps('menuName',{ initialValue: this.props.record.menuName || null})} />
                 </FormItem>
                 <FormItem
                     {...formItemLayout}
                     label="排序：">
                     <Input placeholder="请输入序号"
-                        {...getFieldProps('showOrder')} />
+                        {...getFieldProps('showOrder',{ initialValue: this.props.record.showOrder || null})} />
                 </FormItem>
             </row>
 
@@ -76,13 +66,13 @@ render()
                 {...formItemLayout}
                 label="功能URL：">
                 <Input type="textarea" placeholder="请输入功能地址"
-                    {...getFieldProps('functionURL')} />
+                    {...getFieldProps('functionURL',{ initialValue: this.props.record.functionURL || null})} />
             </FormItem>
             <FormItem
                 {...formItemLayout}
                 label="说明：">
                 <Input type="textarea" placeholder="请输入说明"
-                    {...getFieldProps('description')} />
+                    {...getFieldProps('description',{ initialValue: this.props.record.description || null})} />
             </FormItem>
             <Button type="primary" htmlType="submit">保存</Button>
         </Form>

@@ -160,10 +160,11 @@ var userComponent = React.createClass({
     //编辑方法
     editContent(record){
 
+        this.showModal();
         this.setState({
             record: record
         });
-        this.showModal();
+
 
 
     },
@@ -221,7 +222,8 @@ var userComponent = React.createClass({
             this.setState({
                 visible: true,
                 buttonContent:'新增用户',
-                buttonStyle:{}
+                buttonStyle:{},
+                record:{}
             });
         }else
         {
