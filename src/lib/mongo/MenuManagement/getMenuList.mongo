@@ -3,19 +3,24 @@
  */
  function getList(args) {
  var result
+ var resultKey=[]
      if (args.findField) {
           result = db.form.find({
              formName: {
                  $regex: args.findField,
                  $options: "$i"
              }
-         }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({createTime: 1})
+         }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({showOrder: 1})
      }
      else {
-          result = db.menu.find({path: args.treeNode }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({createTime: 1})
+          result = db.menu.find({path: args.treeNode }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({showOrder: 1})
      }
+     resultKey=result.toArray()
+resultKey.forEach(function (item) {
+                      item.key=item._id
+                      })
      var data = {}
-     data.data = result.toArray()
+     data.data =resultKey
    data.totalCount = result.count()
      return data
     }

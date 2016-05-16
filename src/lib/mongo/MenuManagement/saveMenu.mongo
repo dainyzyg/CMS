@@ -4,7 +4,6 @@
  function insertMenuData(args) {
  if (!args._id) {
  args._id=new ObjectId()
- args.OUId=ObjectId(args.OUid)
      db.menu.insert(args)
      console.log('insert',args)
      }

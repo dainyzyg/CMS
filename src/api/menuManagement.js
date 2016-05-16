@@ -28,7 +28,7 @@ function save(req, res) {
         functionURL: req.body.functionURL,
         description: req.body.description,
         createTime: req.body.createTime,
-        showOrder: req.body.showOrder,
+        showOrder: parseInt(req.body.showOrder),
         path: req.body.path
     }
     console.log('saveArgs',args)
