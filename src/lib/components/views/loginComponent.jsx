@@ -1,8 +1,9 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import './../css/loginLayout.css';
+import './../../../css/loginLayout.css';
 import reqwest from 'reqwest';
-import {Input, Button, Alert} from 'antd'
+import {Input, Button, Alert} from 'antd';
+import {browserHistory} from 'react-router';
 
 const LoginComponent = React.createClass({
     getInitialState(){
@@ -10,7 +11,8 @@ const LoginComponent = React.createClass({
             userName: '',
             passWord: '',
             alertDisplay: 'none',
-            alertMessage: ''
+            alertMessage: '',
+            loading: false
         }
     },
     handleUser(event)
@@ -27,6 +29,11 @@ const LoginComponent = React.createClass({
             passWord: value
         })
     },
+    getKey(event){
+        if (event.keyCode == 13||event.which == 13) {
+            this.onSubmit();
+        }
+    },
     onSubmit()
     {
         if (this.state.userName == '') {
@@ -35,12 +42,6 @@ const LoginComponent = React.createClass({
                 alertMessage: '请输入用户名'
             })
         }
-        //else if (this.state.userName.indexOf('ptr\\') == -1 || this.state.userName.indexOf('cnpc\\') == -1) {
-        //    this.setState({
-        //        alertDisplay: 'inline',
-        //        alertMessage: '请以ptr\或cnpc\起始填写用户名'
-        //    })
-        //}
         else if (this.state.passWord == '') {
             this.setState({
                 alertDisplay: 'inline',
@@ -59,8 +60,15 @@ const LoginComponent = React.createClass({
                 type: 'json',
                 success: (result) => {
                     console.log('result', result);
-                    if (result.result.retval == "success") {
-                        window.location.href="http://www.baidu.com";
+                    if (result.result.retval.message == "success") {
+                        localStorage.userInfo = {
+                            userName: result.result.retval.userName,
+                            userId: result.result.retval.id
+                        };
+                        this.setState({
+                            loading: true
+                        });
+                        browserHistory.push('/router');
                     }
                     else if (result.result.retval == "notFind") {
                         this.setState({
@@ -81,24 +89,26 @@ const LoginComponent = React.createClass({
     render()
     {
         return (
-            <div className="login">
-                <div className="header">
-                    <div className="logo-image"></div>
-                    <div className="logo-text">信息化工作平台</div>
+            <div className="outside">
+                <div className="login">
+                    <div className="header">
+                        <div className="logo-image"></div>
+                        <div className="logo-text">信息化工作平台</div>
+                    </div>
+                    <div style={{display:this.state.alertDisplay}}>
+                        <Alert message={this.state.alertMessage} type="warn" showIcon/>
+                    </div>
+                    <Input onChange={this.handleUser} onKeyPress={this.getKey} value={this.state.userName} size="large"
+                           placeholder="请输入用户名"
+                           style={{height:'40px'}}></Input>
+                    <Input onChange={this.handlePwd} onKeyPress={this.getKey} value={this.state.passWord} size="large" type="password"
+                           placeholder="请输入密码" style={{height:'40px'}}></Input>
+                    <Button size="large" type="primary" loading={this.state.loading} onClick={this.onSubmit}
+                            style={{height:'40px'}}>登录</Button>
                 </div>
-                <div style={{display:this.state.alertDisplay}}>
-                    <Alert message={this.state.alertMessage} type="warn" showIcon/>
-                </div>
-                <Input onChange={this.handleUser} value={this.state.userName} size="large"
-                       placeholder="请输入cnpc或ptr账户名"
-                       style={{height:'40px'}}></Input>
-                <Input onChange={this.handlePwd} value={this.state.passWord} size="large" type="password"
-                       placeholder="请输入密码" style={{height:'40px'}}></Input>
-                <Button size="large" type="primary" onClick={this.onSubmit} style={{height:'40px'}}>登录</Button>
             </div>
         );
     }
 });
 
 export default LoginComponent;
-//ReactDOM.render(<LoginComponent />, document.getElementById('react-content'));

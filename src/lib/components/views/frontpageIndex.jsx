@@ -1,7 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import { Menu, Icon } from 'antd'
+import reqwest from 'reqwest'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import LoginComponent from './loginComponent.jsx';
+import FrontpageMenuComponent from './frontpageMenuComponent.jsx'
 import './../../../css/fmLayout.css';
 import './../../../css/homePageTransition.css'
 
@@ -10,74 +13,85 @@ const Frontpage = React.createClass({
     getInitialState() {
         return {
             current: '1',
-            openKeys: ['sub1']
+            openKeys: ['sub1'],
+            data: []
         };
     },
-    handleClick(e) {
+    fetch(){
+        reqwest({
+            url: '../api/loginManagement',
+            method: 'post',
+            data: {
+                action: 'getMenu'
+            },
+            type: 'json',
+            success: (result) => {
+                console.log('result', result);
+                this.setState({
+                    data:result.result.retval
+                });
+            }
+        })
     },
-    onToggle(info) {
-        this.setState({
-            openKeys: info.open ? info.keyPath : info.keyPath.slice(1)
-        });
+    logout(){
+        delete localStorage.userInfo;
+        browserHistory.push('/router');
     },
-    onSelect(item, key, selectedKeys) {
+    componentDidMount() {
+        this.fetch();
     },
     render() {
-        return (
-            <div>
-                <div className="ant-layout-header">
-                    <img src='../images/logo.jpg' style={{ float: 'left', height: '63px' }}/>
-                    <Menu mode="horizontal" style={{ float: 'right', marginTop: '16px' }}>
-                        <Menu.Item><Icon type="question"/>系统帮助</Menu.Item>
-                        <Menu.Item><Icon type="notification"/>系统消息</Menu.Item>
-                        <Menu.Item><Icon type="logout"/>系统注销</Menu.Item>
-                    </Menu>
-                </div>
+        if (!localStorage.userInfo) {
+            return (
+                <LoginComponent />
+            );
+        }
+        else {
+            return (
                 <div>
-                    <div className="ant-layout-container">
-                        <aside className="ant-layout-sider">
-                            <Menu mode="inline" defaultOpenKeys={['sub1']}
-                                  onClick={this.handleClick}
-                                  openKeys={this.state.openKeys}
-                                  onOpen={this.onToggle}
-                                  onClose={this.onToggle}
-                                  selectedKeys={[this.props.location.pathname]}
-                                  onSelect={this.onSelect}>
-                                <SubMenu key="sub1" title={<span><Icon type="user" />系统管理</span>}>
-                                    <Menu.Item key="/router/formManagement">
-                                        <Link to="/router/formManagement">表单管理</Link>
-                                    </Menu.Item>
-                                    <Menu.Item key="/router/flowTable">
-                                        <Link to="/router/flowTable">流程管理</Link>
-                                    </Menu.Item>
-                                </SubMenu>
-                                <SubMenu key="sub2" title={<span><Icon type="laptop" />应用管理</span>}>
-                                    <Menu.Item>组织机构管理</Menu.Item>
-                                    <Menu.Item>用户配置管理</Menu.Item>
-                                </SubMenu>
-                            </Menu>
-                        </aside>
-                        <div className="ant-layout-content">
-                            <div>
-                                <div style={{ clear: 'both' }}>
-                                    <ReactCSSTransitionGroup
-                                        component="div"
-                                        transitionName="example"
-                                        transitionEnterTimeout={500}
-                                        transitionLeaveTimeout={500}
-                                        >
-                                        {React.cloneElement(this.props.children || (
-                                                <div className='component'>个人首页</div>), {
-                                            key: this.props.location.pathname
-                                        }) }
-                                    </ReactCSSTransitionGroup>
+                    <div className="ant-layout-header">
+                        <img src='../images/logo.jpg' style={{ float: 'left', height: '63px' }}/>
+
+                        <div className="ant-layout-naviRight" onClick={this.logout}>
+                            <Icon type="logout" style={{marginRight:"6px"}}/>
+                            <span>系统注销</span>
+                        </div>
+                        <div className="ant-layout-naviRight">
+                            <Icon type="notification" style={{marginRight:"6px"}}/>
+                            <span>系统消息</span>
+                        </div>
+                        <div className="ant-layout-naviRight">
+                            <Icon type="question" style={{marginRight:"6px"}}/>
+                            <span>系统帮助</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="ant-layout-container">
+                            <aside className="ant-layout-sider">
+                                <FrontpageMenuComponent data={this.state.data} />
+                            </aside>
+                            <div className="ant-layout-content">
+                                <div>
+                                    <div style={{ clear: 'both' }}>
+                                        <ReactCSSTransitionGroup
+                                            component="div"
+                                            transitionName="example"
+                                            transitionEnterTimeout={500}
+                                            transitionLeaveTimeout={500}
+                                            >
+                                            {React.cloneElement(this.props.children || (
+                                                    <div className='component'>个人首页</div>), {
+                                                key: this.props.location.pathname
+                                            }) }
+                                        </ReactCSSTransitionGroup>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 });
 

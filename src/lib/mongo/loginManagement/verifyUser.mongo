@@ -6,8 +6,8 @@ function verify(args){
         }
     else if(user.passWord==args.passWord)
         {
-        var message="success";
-        return message;
+        var storage={message:'success',id:user._id,userName:user.userName};
+        return storage;
         }
     else
         {
