@@ -2,15 +2,14 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import { Menu, Icon } from 'antd';
 import { Link } from 'react-router'
+
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
-
-
 const FrontpageMenuComponent = React.createClass({
     getInitialState() {
         return {
-            current: '1',
-            openKeys: ['sub1']
+            current: '',
+            openKeys: ['56f34cd538e2124a0c85c28b']
         };
     },
     handleClick(e) {
@@ -51,9 +50,10 @@ const FrontpageMenuComponent = React.createClass({
 
         const treeNodes = loop('菜单/');
         return (
-            <Menu mode="inline" defaultOpenKeys={['56f34cd538e2124a0c85c28b']}
+            <Menu mode="inline"
                   onClick={this.handleClick}
                   openKeys={this.state.openKeys}
+                  selectedKeys={[this.state.current]}
                   onOpen={this.onToggle}
                   onClose={this.onToggle}
                   onSelect={this.onSelect}>
