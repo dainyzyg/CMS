@@ -1,0 +1,4 @@
+function getMenu(){
+    var menu=db.menu.find().toArray();
+    return menu;
+    }
