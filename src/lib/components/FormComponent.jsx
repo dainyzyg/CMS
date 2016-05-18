@@ -1,5 +1,5 @@
 /**
- * Created by Baggio on 2016/3/30.
+ * Created by Baggio on 2016/3/30.菜单编辑form
  */
 import ReactDOM from 'react-dom';
 import React from 'react';

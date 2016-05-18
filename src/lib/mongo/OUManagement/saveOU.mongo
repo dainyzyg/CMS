@@ -1,0 +1,13 @@
+/**
+ * Created by Baggio on 2016/5/18.
+ */
+ function insertOUData(args) {
+ if (!args._id) {
+ args._id=new ObjectId()
+     db.OU.insert(args)
+     }
+ else{
+ args._id = ObjectId(args._id)
+ db.OU.update({_id: args._id}, {$set: args})
+ }
+ }
