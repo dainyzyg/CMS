@@ -14,9 +14,21 @@
     <link rel="stylesheet" type="text/css" href="Public/css/bootstrap/css/ie.css?2025">
     <![endif]-->
     <link href="Public/css/site.css?2025" rel="stylesheet" type="text/css" />
+    <link href="../zTreeV3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="Public/js/flowdesign/flowdesign.css" />
     <!--select 2-->
     <link rel="stylesheet" type="text/css" href="Public/js/jquery.multiselect2side/css/jquery.multiselect2side.css" />
+    <style>
+        ul.ztree {
+            margin-top: 10px;
+            border: 1px solid #617775;
+            background: #f0f6e4;
+            width: 220px;
+            height: 315px;
+            overflow-y: scroll;
+            overflow-x: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,8 +49,7 @@
             </div>
         </div>
     </div>
-    <div id="simulationModal" style="width:800px;margin-left:-400px" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
+    <div id="simulationModal" style="width:800px;margin-left:-400px" class="modal hide fade" tabindex="-100" aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 id="myModalLabel">模拟流程</h3>
@@ -58,7 +69,36 @@
 
         </div>
     </div>
+    <!-- 用户范围选择 -->
+    <div id="userRangeSelectionModal" style="width:800px;margin-left:-400px" class="modal hide fade" tabindex="-100" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">用户配置</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="span3">
+                    <p>组织机构</p>
+                    <ul id="treeDemo" class="ztree"></ul>
+                </div>
+                <div class="span3">
+                    <p>用户</p>
+                    <select id="userList" name="" multiple="multiple" size="18" style="width: 180px;">
+                    </select>
+                </div>
+                <div class="span3">
+                    <p>已选用户 <button class="btn btn-danger btn-small" type="button" id="deleteUsers">删除</button>
+                    </p>
+                    <select id="selectedUsers" name="" multiple="multiple" size="18" style="width: 180px;">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 
+        </div>
+    </div>
 
     <!-- Modal -->
     <div id="alertModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -76,7 +116,7 @@
 
     <!-- attributeModal -->
     <div id="attributeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-    style="width:800px;margin-left:-400px">
+        style="width:800px;margin-left:-400px">
         <div class="modal-body" style="max-height:500px;">
             <!-- body -->
         </div>
@@ -124,6 +164,7 @@
     <script type="text/javascript" src="Public/js/jquery.contextmenu.r2.js?2025"></script>
     <!--select 2-->
     <script type="text/javascript" src="Public/js/jquery.multiselect2side/js/jquery.multiselect2side.js?2025"></script>
+    <script type="text/javascript" src="../zTreeV3/js/jquery.ztree.core.min.js"></script>
     <!--flowdesign-->
     <script type="text/javascript" src="Public/js/flowdesign/leipi.flowdesign.v3.js?2025"></script>
     <script type="text/javascript" src="../../javascripts/DDworkflow.js"></script>
@@ -202,6 +243,124 @@
             }
         }
         return theRequest;
+    }
+    function initzTree(){
+        function onClick(event, treeId, treeNode, clickFlag) {
+            $.ajax({
+                async: false,
+                url: '../api/userManagement',
+                data: {
+                    index:1,
+                    limit:0,
+                    OUID:treeNode.id,
+                    action: 'getList'
+                },
+                type: 'post',
+                dataType: 'json',
+                success: function(resobject) {
+                    var userList=$("#userList")
+                    userList.empty()
+                    resobject.result.retval.data.forEach(user=>{
+                         userList.append(`<option value="${user.key}">${user.personName}</option>`)
+                    })              
+                },
+                error: function(curForm, act) {
+                    mAlert("提示", "数据保存失败！")
+                }
+            })
+		}
+        var setting = {	
+                async: {
+                    enable: true,
+                    url:"../api/apitest",
+                    autoParam:["id", "name", "level"],
+                    otherParam:{"action":"getOUTreeAsync"}
+                },
+                callback: {
+				    		onClick: onClick
+			}};
+		var zNodes =[
+			{ name:"父节点1 - 展开", open:true,
+				children: [
+					{ name:"父节点11 - 折叠",
+						children: [
+							{ name:"叶子节点111"},
+							{ name:"叶子节点112"},
+							{ name:"叶子节点113"},
+							{ name:"叶子节点114"}
+						]},
+					{ name:"父节点12 - 折叠",
+						children: [
+							{ name:"叶子节点121"},
+							{ name:"叶子节点122"},
+							{ name:"叶子节点123"},
+							{ name:"叶子节点124"}
+						]},
+					{ name:"父节点13 - 没有子节点", isParent:true}
+				]},
+			{ name:"父节点2 - 折叠",
+				children: [
+					{ name:"父节点21 - 展开", open:true,
+						children: [
+							{ name:"叶子节点211"},
+							{ name:"叶子节点212"},
+							{ name:"叶子节点213"},
+							{ name:"叶子节点214"}
+						]},
+					{ name:"父节点22 - 折叠",
+						children: [
+							{ name:"叶子节点221"},
+							{ name:"叶子节点222"},
+							{ name:"叶子节点223"},
+							{ name:"叶子节点224"}
+						]},
+					{ name:"父节点23 - 折叠",
+						children: [
+							{ name:"叶子节点231"},
+							{ name:"叶子节点232"},
+							{ name:"叶子节点233"},
+							{ name:"叶子节点234"}
+						]}
+				]},
+			{ name:"父节点3 - 没有子节点", isParent:true}
+
+		];
+
+		$(document).ready(function(){
+            //console.log('treeDemo')
+			$.fn.zTree.init($("#treeDemo"), setting);
+		});
+    }
+    function initSelectCMP(){
+        $('#userList').on('change',e=>{
+            activeNext.users=activeNext.users||{}
+            var selectOpts=e.target.selectedOptions
+            for(var index=0;index<selectOpts.length;index++){
+                console.log('selectOpts',index)
+                activeNext.users[selectOpts[index].value]=selectOpts[index].text
+            }
+            initSelectedUserList()
+        })
+        
+        $('#deleteUsers').on('click',()=>{
+            var selectedUserArray=$('#selectedUsers').val()||[]
+            selectedUserArray.forEach(id=>{
+                delete activeNext.users[id]
+            })
+            initSelectedUserList()
+        })
+    }
+    function initSelectedUserList(next){
+        var selectedUsers=$('#selectedUsers').empty()
+        if(activeNext.users){
+            for(var id in activeNext.users){
+                selectedUsers.append(`<option value="${id}">${activeNext.users[id]}</option>`)
+            }
+        }
+    }
+    function initUserSelectCMP(){
+        initzTree()
+        initSelectCMP()
     }
     $(function () {
         var alertModal = $('#alertModal'), attributeModal = $("#attributeModal");
@@ -361,116 +520,8 @@
                 }
             })
         }
-        // processData.list ={
-        //                 "1": {
-        //                     "id": "1",
-        //                     "process_name": "开始",
-        //                     "process_to": [
-        //                         "39"
-        //                     ],
-        //                     "icon": "icon-play",
-        //                     "style": "left:534px;top:66px;color:#0e76a8;",
-        //                     "next": {
-        //                         "39": {
-        //                             "id": "39",
-        //                             "type": "启动",
-        //                             "buttonName": "启动"
-        //                         }
-        //                     }
-        //                 },
-        //                 "36": {
-        //                     "id": "36",
-        //                     "process_name": "领导审批2",
-        //                     "process_to": [
-        //                         "39",
-        //                         "38"
-        //                     ],
-        //                    "icon": "icon-star",
-        //                     "style": "left:657px;top:308px;color:#0e76a8;",
-        //                     "next": {
-        //                         "38": {
-        //                             "id": "38",
-        //                             "type": "同意",
-        //                             "buttonName": "同意"
-        //                         },
-        //                         "39": {
-        //                             "id": "39",
-        //                             "type": "退回",
-        //                             "buttonName": "退回"
-        //                         }
-        //                     }
-        //                 },
-        //                 "37": {
-        //                     "id": "37",
-        //                     "process_name": "领导审批1",
-        //                     "process_to": [
-        //                         "39",
-        //                         "38"
-        //                     ],
-        //                     "icon": "icon-star",
-        //                     "style": "left:407px;top:307px;color:#0e76a8;",
-        //                     "next": {
-        //                         "38": {
-        //                             "id": "38",
-        //                             "type": "同意",
-        //                             "buttonName": "同意"
-        //                         },
-        //                         "39": {
-        //                             "id": "39",
-        //                             "type": "退回",
-        //                             "buttonName": "退回"
-        //                         }
-        //                     }
-        //                 },
-        //                 "38": {
-        //                     "id": "38",
-        //                     "process_name": "总经理审批",
-        //                     "process_to": [
-        //                         "39",
-        //                         "2"
-        //                     ],
-        //                     "icon": "icon-star",
-        //                     "style": "left:534px;top:416px;color:#0e76a8;",
-        //                     "next": {
-        //                         "2":{"id":"2","type":"完成","buttonName":"完成"},
-        //                         "39": {
-        //                             "id": "39",
-        //                             "type": "退回",
-        //                             "buttonName": "退回"
-        //                         }
-        //                     }
-        //                 },
-        //                 "39": {
-        //                     "id": 39,
-        //                     "icon": "icon-star",
-        //                     "process_to": [
-        //                         "37",
-        //                         "36"
-        //                     ],
-        //                     "process_name": "填报",
-        //                     "style": "left:534px;top:246px;color:#0e76a8;",
-        //                     "next": {
-        //                         "36": {
-        //                             "id": "36",
-        //                             "type": "送审",
-        //                             "buttonName": "送审"
-        //                         },
-        //                         "37": {
-        //                             "id": "37",
-        //                             "type": "送审",
-        //                             "buttonName": "送审"
-        //                         }
-        //                     }
-        //                 },
-        //                 "2": {
-        //                     "id": 2,
-        //                     "icon": "icon-stop",
-        //                     "process_to": [],
-        //                     "process_name": "结束",
-        //                     "style": "left:534px;top:514px;color:#0e76a8;",
-        //                     "next": {}
-        //                 }
-        //             }
+        
+         initUserSelectCMP()
         /*创建流程设计器*/
          _canvas = $("#flowdesign_canvas").Flowdesign({
             "processData": processData
@@ -642,7 +693,9 @@
                 console.log('_id',workflow.id)
                 data._id=workflow.id
             }
+            jQuery.support.Cors = true
             $.ajax({
+                //url: 'http://localhost/IMSNew4/iframe/webAPI.ashx',
                 url: '../api/flowManagement',
                 type: 'post',
                 data: {
@@ -651,6 +704,7 @@
                 },
                 dataType: 'json',
                 success: function (resobject) {
+                    //alert(JSON.stringify(resobject))
                     if(resobject.err){
                          mAlert(resobject.err.name+':'+resobject.err.message)
                     }else{
@@ -661,7 +715,7 @@
                     }
                    //console.log(resobject)
                 },
-                error: function () {
+                error: function (a) {
                     mAlert("保存失败！")
                 }
             });
@@ -712,6 +766,10 @@
            
            initView(instance)
            //$('#simulationModal').modal('show')
+        })
+        
+        $('#userRangeSelectionModal').on('hidden',()=>{
+            $('#attributeModal').modal('toggle')
         })
         /*模拟运行*/
         $("#simulationRun").bind('click', function () {
