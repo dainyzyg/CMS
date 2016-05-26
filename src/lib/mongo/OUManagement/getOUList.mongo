@@ -1,0 +1,26 @@
+/**
+ * Created by Baggio on 2016/5/17.
+ */
+ function getList(args) {
+ var result
+ var resultKey=[]
+     if (args.findField) {
+          result = db.form.find({
+             formName: {
+                 $regex: args.findField,
+                 $options: "$i"
+             }
+         }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({showOrder: 1})
+     }
+     else {
+          result = db.OU.find({path: args.treeNode }).skip(parseInt(args.index) - 1).limit(parseInt(args.limit)).sort({showOrder: 1})
+     }
+     resultKey=result.toArray()
+resultKey.forEach(function (item) {
+                      item.key=item._id
+                      })
+     var data = {}
+     data.data =resultKey
+   data.totalCount = result.count()
+     return data
+    }
