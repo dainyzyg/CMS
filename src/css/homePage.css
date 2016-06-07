@@ -1,0 +1,46 @@
+.testRowClassName {
+    display: flex;
+    justify-content: space-around;
+
+    height: auto;
+    width: 100%;
+    margin-top: 50px;
+
+    align-items: flex-start  ;
+}
+
+.testColClassName {
+
+    width: 290px;
+    border: 1px solid #d9d9d9;
+    borderRadius: 4;
+
+}
+
+.testColClassName1 {
+
+    width: 450px;
+    border: 1px;
+
+}
+
+.Row1 {
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+}
+
+
+
+.ant-badge {
+    margin-right: 16px;
+}
+
+.head-example {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    background: #eee;
+    display: inline-block;
+}
+

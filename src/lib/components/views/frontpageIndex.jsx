@@ -1,12 +1,14 @@
 import React from 'react'
 import { Link, browserHistory } from 'react-router'
-import { Menu, Icon } from 'antd'
+import { Menu, Icon,Row,Col,Calendar } from 'antd'
 import reqwest from 'reqwest'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import LoginComponent from './loginComponent.jsx';
 import FrontpageMenuComponent from './frontpageMenuComponent.jsx'
 import './../../../css/fmLayout.css';
 import './../../../css/homePageTransition.css'
+import './../../../css/homePage.css'
+import Tablecomponent from './home.jsx';
 
 const SubMenu = Menu.SubMenu;
 const Frontpage = React.createClass({
@@ -84,7 +86,16 @@ const Frontpage = React.createClass({
                                                 key: this.props.location.pathname
                                             }) }
                                         </ReactCSSTransitionGroup>
+                                        <div>
+                                            <Row className="testRowClassName">
+                                                <Col span="24">
+                                                    <Tablecomponent />
+                                                </Col>
+
+                                            </Row>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

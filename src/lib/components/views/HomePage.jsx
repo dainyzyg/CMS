@@ -89,7 +89,7 @@ const HomePage = React.createClass({
                         transitionEnterTimeout={500}
                         transitionLeaveTimeout={500}
                         >
-                        {React.cloneElement(this.props.children||(<div className='component'>个人首页</div>), {
+                        {React.cloneElement(this.props.children||(<div className='component'>个人1首页</div>), {
                             key: this.props.location.pathname
                         }) }
                     </ReactCSSTransitionGroup>

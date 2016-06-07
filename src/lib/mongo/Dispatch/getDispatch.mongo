@@ -1,0 +1,5 @@
+function getDispatch(args) {
+    var data = {}
+    data = db.dispatch.findOne({_id: ObjectId(args._id)})
+    return data
+}
