@@ -1,0 +1,18 @@
+function getOUTreeAsync(id){
+    var ouTree
+    var mapFunc=function(item){
+        var fullPath=item.path+item.OUName+'/'
+            item.isParent=db.OU.find({path:fullPath}).count()
+            item.id=item._id
+            item.name=item.OUName
+            return item
+        }
+    if(id){
+        var obj=db.OU.findOne({_id:ObjectId(id)})
+        var path=obj.path+obj.OUName+'/'
+    ouTree=db.OU.find({path:path}).sort({showOrder:1}).map(mapFunc)}
+    else{
+        ouTree=db.OU.find({path:'组织机构/'}).sort({showOrder:1}).map(mapFunc)
+     } 
+     return ouTree
+}

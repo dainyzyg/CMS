@@ -207,7 +207,7 @@ function fnSetCondition() {
         var ids = '';
         $('#ctbody').html('');
         $('#tab_attrJudge').show();
-        $("#process_multiple option").each(function() {
+        $("#process_multiple option").each(function () {
             if ($(this).val() > 0 && $(this).attr("selected")) {
                 var id = $(this).val(),
                     text = $(this).text(),
@@ -223,7 +223,7 @@ function fnSetCondition() {
                 ids += id + ',';
 
                 if (_out_condition_data) {
-                    $.each(_out_condition_data, function(i, n) {
+                    $.each(_out_condition_data, function (i, n) {
                         if (i == id && _id('conList_' + i)) {
                             $('#conList_' + i).append(n.condition);
                             $('#process_in_desc_' + i).val(n.condition_desc);
@@ -272,7 +272,7 @@ function bindActions(action) {
             var td2 = $(`<td>${action.process_name}</td>`)
             var td3 = $(`<td><input type="text" id='type' class="input-small" value="${p.type}"></td>`)
             var td4 = $(`<td><input type="text" id='buttonName' class="input-small" value="${p.buttonName}"></td>`)
-            var td5 = $(`<td></td>`)
+            var td5 = $(`<td>/td>`)
             tr.append(td1).append(td2).append(td3).append(td4).append(td5)
             actiontbody.append(tr)
         })
@@ -282,22 +282,31 @@ function bindActions(action) {
         processInfo = JSON.parse(window._canvas.getProcessInfo())
         processInfo[activeId].process_to.forEach((p) => {
             var nextaction = window.processData.list[p]
-            var next = action.next || {}
-            var nextOne = next[p] || {}
+            action.next = action.next || {}
+            var next = action.next
+            next[p] = next[p] || {}
+            var nextOne = next[p]
             var tr = $('<tr class="actions"></tr>>')
             var td1 = $(`<td id='id'>${p}</td>`)
             var td2 = $(`<td>${nextaction.process_name}</td>`)
             var td3 = $(`<td><input type="text" id='type' class="input-small" value="${nextOne.type || ''}"></td>`)
             var td4 = $(`<td><input type="text" id='buttonName' class="input-small" value="${nextOne.buttonName || ''}"></td>`)
-            var td5 = $(`<td></td>`)
+            var configBtn = $(`<button class="btn" >配置</button>`)
+            configBtn.on('click', () => {
+                window.activeNext = nextOne
+                window.initSelectedUserList(nextOne)
+                $(window.document.getElementById('attributeModal')).modal('toggle')
+                $(window.document.getElementById('userRangeSelectionModal')).modal('show')
+            })
+            var td5 = $(`<td></td>`).append(configBtn)
             tr.append(td1).append(td2).append(td3).append(td4).append(td5)
             actiontbody.append(tr)
         })
     }
 }
-$(function() {
+$(function () {
     //TAB
-    $('#attributeTab a').click(function(e) {
+    $('#attributeTab a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
         if ($(this).attr("href") == '#attrJudge') {
@@ -305,7 +314,7 @@ $(function() {
         }
     })
     //确定保存
-    $('#attributeOK').on('click', function() {
+    $('#attributeOK').on('click', function () {
         var activeId = window._canvas.getActiveId()
         var active = window.processData.list[activeId]
         var next = {}
@@ -313,10 +322,12 @@ $(function() {
             next[$(element).find('#id').text()] = {
                 "id": $(element).find('#id').text(),
                 "type": $(element).find('#type').val(),
-                "buttonName": $(element).find('#buttonName').val()
+                "buttonName": $(element).find('#buttonName').val(),
+                "users": active.next[$(element).find('#id').text()].users
             }
         })
         //更新流程数据
+        next.user
         active.next = next
         active.process_name = $('#process_name').val()
         //更新界面
@@ -327,7 +338,7 @@ $(function() {
         $("#attributeModal").modal("hide")
     });
     //步骤类型
-    $('input[name="process_type"]').on('click', function() {
+    $('input[name="process_type"]').on('click', function () {
 
         if ($(this).val() == 'is_child') {
             $('#current_flow').hide();
@@ -338,7 +349,7 @@ $(function() {
         }
     });
     //返回步骤
-    $('input[name="child_after"]').on('click', function() {
+    $('input[name="child_after"]').on('click', function () {
 
         if ($(this).val() == 2) {
             $("#child_back_id").show();
@@ -366,7 +377,7 @@ $(function() {
 
 
     //选人方式
-    $("#auto_person_id").on('change', function() {
+    $("#auto_person_id").on('change', function () {
         var apid = $(this).val();
         if (apid > 0) {
             $('#auto_unlock_id').show();
@@ -419,14 +430,14 @@ $(function() {
     //checkbox全选及反选操作
     function icheck(ac, op) {
         if (ac == 'write') {
-            $("input[name='write_fields[]']").each(function() {
+            $("input[name='write_fields[]']").each(function () {
                 if (this.disabled !== true) {
                     this.checked = op;
                 }
                 write_click(this);
             })
         } else if (ac == 'secret') {
-            $("input[name='secret_fields[]']").each(function() {
+            $("input[name='secret_fields[]']").each(function () {
                 if (this.disabled !== true) {
                     this.checked = op;
                 }
@@ -435,7 +446,7 @@ $(function() {
         }
     }
 
-    $('#write').click(function() {
+    $('#write').click(function () {
         if ($(this).attr('checked')) {
             icheck('write', true);
             $('#secret').attr({ 'disabled': true, 'checked': false });
@@ -446,7 +457,7 @@ $(function() {
             $('#check').attr({ 'disabled': true, 'checked': false });
         }
     })
-    $('#secret').click(function() {
+    $('#secret').click(function () {
         if ($(this).attr('checked')) {
             icheck('secret', true)
             $('#write').attr({ 'disabled': true, 'checked': false });
@@ -456,14 +467,14 @@ $(function() {
         }
     })
 
-    $("input[name='write_fields[]']").click(function() {
+    $("input[name='write_fields[]']").click(function () {
         write_click(this);
         $('#write').removeAttr('disabled');
         if ($('#write').attr('checked') == true) {
             $('#write').attr('checked', false)
         }
     })
-    $("input[name='secret_fields[]']").click(function() {
+    $("input[name='secret_fields[]']").click(function () {
         secret_click(this);
         $('#secret').removeAttr('disabled');
         if ($('#secret').attr('checked') == true) {
@@ -473,7 +484,7 @@ $(function() {
     /*---------表单字段 end---------*/
 
     /*样式*/
-    $('.colors li').click(function() {
+    $('.colors li').click(function () {
         var self = $(this);
         if (!self.hasClass('active')) {
             self.siblings().removeClass('active');
@@ -499,7 +510,7 @@ $(function() {
 
 
     //表单提交前检测
-    $("#flow_attribute").submit(function() {
+    $("#flow_attribute").submit(function () {
         //条件检测
         var cond_data = $("#process_condition").val();
         if (cond_data !== '') {
