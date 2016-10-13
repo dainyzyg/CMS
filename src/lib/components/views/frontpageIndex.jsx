@@ -82,18 +82,19 @@ const Frontpage = React.createClass({
                                             transitionLeaveTimeout={500}
                                             >
                                             {React.cloneElement(this.props.children || (
-                                                    <div className='component'>个人首页</div>), {
+                                                    <div className='component'>
+                                                        <div>
+                                                            <Row className="testRowClassName">
+                                                                <Col span="24">
+                                                                    <Tablecomponent />
+                                                                </Col>
+
+                                                            </Row>
+                                                        </div></div>), {
                                                 key: this.props.location.pathname
                                             }) }
                                         </ReactCSSTransitionGroup>
-                                        <div>
-                                            <Row className="testRowClassName">
-                                                <Col span="24">
-                                                    <Tablecomponent />
-                                                </Col>
 
-                                            </Row>
-                                        </div>
                                     </div>
 
                                 </div>
